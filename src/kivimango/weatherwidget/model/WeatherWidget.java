@@ -14,6 +14,8 @@
 package kivimango.weatherwidget.model;
 
 import kivimango.weatherwidget.model.ServiceProvider;
+import kivimango.weatherwidget.view.WidgetWindow;
+
 import java.io.IOException;
 import java.net.MalformedURLException;
 import com.google.gson.JsonIOException;
@@ -24,6 +26,7 @@ public class WeatherWidget {
 	public static void main(String[] args) throws MalformedURLException {
 		ServiceProvider provider = new ServiceProvider();
 		ApiResponse response = new ApiResponse();
+		WidgetWindow window = new WidgetWindow();
 		
 		try {
 			response = provider.getWeatherData();
