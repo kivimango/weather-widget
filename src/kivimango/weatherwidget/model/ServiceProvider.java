@@ -1,52 +1,92 @@
 package kivimango.weatherwidget.model;
 
+import kivimango.weatherwidget.model.Cache;
+import kivimango.weatherwidget.model.ApiResponse;
+
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class ServiceProvider {
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
+
+public class ServiceProvider implements ServiceProviderInterface {
 	
 	private String name;
-	
-	private URL apiCallUrl;
-	
+	private String apiCallUrl;
+	private String apiCallUrlParams;
 	private String apiKey;
-	
-	private String queryString;
+	private URL queryString;
+	private Cache cache;
+	private ApiResponse response = new ApiResponse();
 
 	public ServiceProvider() throws MalformedURLException {
 		super();
 		this.name = "Open Weather Map";
-		this.apiCallUrl = new URL("api.openweathermap.org/data/2.5/weather?q={city name}");
 		this.apiKey = "b4fdc5e7a35e6a2c9e95b0b2c6a69600";
-		this.queryString = "";
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public URL getUrl() {
-		return apiCallUrl;
-	}
-
-	public void setUrl(URL url) {
-		this.apiCallUrl = url;
-	}
-
-	public String getQueryString() {
-		return queryString;
-	}
-
-	public void setQueryString(String queryString) {
-		this.queryString = queryString;
+		this.apiCallUrl = "http://api.openweathermap.org/data/2.5/weather?q=";
+		this.apiCallUrlParams = "Budapest,hu&units=metric&APPID=" + this.apiKey;
+		this.queryString = new URL(this.apiCallUrl + this.apiCallUrlParams);
+		
+		//System.out.println(this.queryString);
 	}
 	
-	public void apiCall()
+	public ApiResponse getWeatherData() throws JsonIOException, JsonSyntaxException, IOException
 	{
+		JsonObject responseFromProvider = this.doApiCall();
+		response = this.processDataFromProvider(responseFromProvider);
+		
+		return response;
+	}
+	
+	
+	private JsonObject doApiCall() throws JsonIOException, JsonSyntaxException, IOException
+	{
+		JsonParser parser = new JsonParser();
+		JsonElement rootElement = parser.parse(new InputStreamReader(queryString.openStream()));
+		JsonObject responseJson = rootElement.getAsJsonObject();
+		
+		return responseJson;
+	}
+	
+	
+	private ApiResponse processDataFromProvider(JsonObject responseToProcess)
+	{
+		JsonArray tempWeatherInfo = responseToProcess.get("weather").getAsJsonArray();
+		String tempWeatherType = tempWeatherInfo.get(0).getAsJsonObject().get("main").getAsString();
+		String tempWeatherDescription =  tempWeatherInfo.get(0).getAsJsonObject().get("description").getAsString();
+		double temperature =  responseToProcess.get("main").getAsJsonObject().get("temp").getAsDouble();
+		int tempPressure = responseToProcess.get("main").getAsJsonObject().get("pressure").getAsInt();
+		int tempHumidity = responseToProcess.get("main").getAsJsonObject().get("humidity").getAsInt();
+		int tempMin =  responseToProcess.get("main").getAsJsonObject().get("temp_min").getAsInt();
+		int tempMax =  responseToProcess.get("main").getAsJsonObject().get("temp_max").getAsInt();
+		//int tempVisibility = responseToProcess.get("main").getAsJsonObject().get("visibility").getAsInt();
+		//double tempWindSpeed =  responseToProcess.get("main").getAsJsonObject().get("wind").getAsJsonObject().get("speed").getAsDouble();
+		//int tempWindDegree =  responseToProcess.get("main").getAsJsonObject().get("wind").getAsJsonObject().get("deg").getAsInt();
+		
+		//int tempCloudiness =  responseToProcess.get("main").getAsJsonObject().get("clouds").getAsJsonObject().get("all").getAsInt();
+		
+		response.setWeatherType(tempWeatherType);
+		response.setWeatherDescription(tempWeatherDescription);
+		response.setTemperature(temperature);
+		response.setPressure(tempPressure);
+		response.setHumidity(tempHumidity);
+		
+		response.setCountryCode("HU");
+		response.setCityName("Budapest");
+		
+		
+		
+		return response;
+	}
+	
+	public String getName() {
+		return name;
 	}
 
 }

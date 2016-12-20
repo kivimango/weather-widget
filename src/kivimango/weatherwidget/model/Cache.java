@@ -11,7 +11,7 @@ public class Cache {
     private Cache() {
     }
 
-    public static void put(String cacheKey, Object value) {
+    public void put(String cacheKey, Object value) {
         cache.put(cacheKey, value);
     }
 
