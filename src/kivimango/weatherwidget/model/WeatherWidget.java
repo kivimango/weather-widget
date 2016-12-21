@@ -4,7 +4,7 @@
  * Displays the current weather information on your desktop in a little, fancy window.
  * 
  * @author		kivimango	dev@kivimango.hu
- * @copyright	kivimango	https://github.com/kivimango
+ * @copyright	kivimango	https://github.com/kivimango/weather-widget
  * @license		MIT License	https://opensource.org/licenses/MIT
  * @version		0.1
  * @since		0.1
@@ -26,10 +26,10 @@ public class WeatherWidget {
 	public static void main(String[] args) throws MalformedURLException {
 		ServiceProvider provider = new ServiceProvider();
 		ApiResponse response = new ApiResponse();
-		WidgetWindow window = new WidgetWindow();
 		
 		try {
 			response = provider.getWeatherData();
+			WidgetWindow window = new WidgetWindow(response);
 			System.out.println("A hõmérséklet: " + response.getTemperature());
 			System.out.println("Idõjárás: " + response.getWeatherType() + ", " + response.getWeatherDescription());	
 		} catch (JsonIOException | JsonSyntaxException | IOException e) {

@@ -151,4 +151,13 @@ public class ApiResponse {
 	public void setSunset(long sunset) {
 		this.sunset = sunset;
 	}
+	
+	@Override
+	public String toString() {
+		return "ApiResponse [countryCode=" + countryCode + ", cityName=" + cityName + ", weatherType=" + weatherType
+				+ ", weatherDescription=" + weatherDescription + ", temperature=" + temperature + ", temperatureMin="
+				+ temperatureMin + ", temperatureMax=" + temperatureMax + ", pressure=" + pressure + ", humidity="
+				+ humidity + ", visibility=" + visibility + ", windSpeed=" + windSpeed + ", windDegree=" + windDegree
+				+ ", cloudiness=" + cloudiness + ", sunries=" + sunries + ", sunset=" + sunset + "]";
+	}
 }

@@ -1,6 +1,5 @@
 package kivimango.weatherwidget.model;
 
-import kivimango.weatherwidget.model.Cache;
 import kivimango.weatherwidget.model.ApiResponse;
 
 import java.io.IOException;
@@ -22,7 +21,6 @@ public class ServiceProvider implements ServiceProviderInterface {
 	private String apiCallUrlParams;
 	private String apiKey;
 	private URL queryString;
-	private Cache cache;
 	private ApiResponse response = new ApiResponse();
 
 	public ServiceProvider() throws MalformedURLException {
@@ -32,8 +30,6 @@ public class ServiceProvider implements ServiceProviderInterface {
 		this.apiCallUrl = "http://api.openweathermap.org/data/2.5/weather?q=";
 		this.apiCallUrlParams = "Budapest,hu&units=metric&APPID=" + this.apiKey;
 		this.queryString = new URL(this.apiCallUrl + this.apiCallUrlParams);
-		
-		//System.out.println(this.queryString);
 	}
 	
 	public ApiResponse getWeatherData() throws JsonIOException, JsonSyntaxException, IOException
@@ -44,7 +40,6 @@ public class ServiceProvider implements ServiceProviderInterface {
 		return response;
 	}
 	
-	
 	private JsonObject doApiCall() throws JsonIOException, JsonSyntaxException, IOException
 	{
 		JsonParser parser = new JsonParser();
@@ -54,17 +49,18 @@ public class ServiceProvider implements ServiceProviderInterface {
 		return responseJson;
 	}
 	
-	
 	private ApiResponse processDataFromProvider(JsonObject responseToProcess)
 	{
 		JsonArray tempWeatherInfo = responseToProcess.get("weather").getAsJsonArray();
 		String tempWeatherType = tempWeatherInfo.get(0).getAsJsonObject().get("main").getAsString();
 		String tempWeatherDescription =  tempWeatherInfo.get(0).getAsJsonObject().get("description").getAsString();
 		double temperature =  responseToProcess.get("main").getAsJsonObject().get("temp").getAsDouble();
-		int tempPressure = responseToProcess.get("main").getAsJsonObject().get("pressure").getAsInt();
-		int tempHumidity = responseToProcess.get("main").getAsJsonObject().get("humidity").getAsInt();
-		int tempMin =  responseToProcess.get("main").getAsJsonObject().get("temp_min").getAsInt();
-		int tempMax =  responseToProcess.get("main").getAsJsonObject().get("temp_max").getAsInt();
+		String tempCountryCode = responseToProcess.get("sys").getAsJsonObject().get("country").getAsString();
+		String tempCityName = responseToProcess.get("name").getAsString();
+		//int tempPressure = responseToProcess.get("main").getAsJsonObject().get("pressure").getAsInt();
+		//int tempHumidity = responseToProcess.get("main").getAsJsonObject().get("humidity").getAsInt();
+		//int tempMin =  responseToProcess.get("main").getAsJsonObject().get("temp_min").getAsInt();
+		//int tempMax =  responseToProcess.get("main").getAsJsonObject().get("temp_max").getAsInt();
 		//int tempVisibility = responseToProcess.get("main").getAsJsonObject().get("visibility").getAsInt();
 		//double tempWindSpeed =  responseToProcess.get("main").getAsJsonObject().get("wind").getAsJsonObject().get("speed").getAsDouble();
 		//int tempWindDegree =  responseToProcess.get("main").getAsJsonObject().get("wind").getAsJsonObject().get("deg").getAsInt();
@@ -74,13 +70,10 @@ public class ServiceProvider implements ServiceProviderInterface {
 		response.setWeatherType(tempWeatherType);
 		response.setWeatherDescription(tempWeatherDescription);
 		response.setTemperature(temperature);
-		response.setPressure(tempPressure);
-		response.setHumidity(tempHumidity);
-		
-		response.setCountryCode("HU");
-		response.setCityName("Budapest");
-		
-		
+		//response.setPressure(tempPressure);
+		//response.setHumidity(tempHumidity);
+		response.setCountryCode(tempCountryCode);
+		response.setCityName(tempCityName);		
 		
 		return response;
 	}
