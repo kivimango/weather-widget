@@ -39,6 +39,7 @@ public class WidgetWindow {
 	{
 		this.weatherData = response;
 		setWeatherData();
+		setTransparency(4);
 		frame.setVisible(true);
 	}
 	
@@ -57,14 +58,12 @@ public class WidgetWindow {
 		this.temperatureLabel.setFont(new Font("SansSerif", Font.BOLD, 30));
 		this.temperatureLabel.setHorizontalAlignment(JLabel.CENTER);
 		this.temperatureLabel.setName("temperatureLabel");
-		//temperatureLabel.setBounds(0, 15, 0, 0);
 		
 		this.weatherTypeLabel.setOpaque(false);
 		this.weatherTypeLabel.setForeground(Color.WHITE);
 		this.weatherTypeLabel.setFont(new Font("SansSerif", Font.BOLD, 30));
 		this.weatherTypeLabel.setHorizontalAlignment(JLabel.CENTER);
 		this.weatherTypeLabel.setName("weatherTypeLabel");
-		//weatherTypeLabel.setBounds(0, 150, 14, 14);	
 		
 		this.countryCodeLabel.setOpaque(false);
 		this.countryCodeLabel.setForeground(Color.WHITE);
@@ -81,12 +80,12 @@ public class WidgetWindow {
 		
 		frame.setMinimumSize(new Dimension(100,200));
 		frame.setAlwaysOnTop(true);
-		frame.getContentPane().setBackground(new Color(236, 86 , 62));
-		
+		//frame.getContentPane().setBackground(new Color(236, 86 , 62));
+		frame.getContentPane().setBackground(Color.black);
 		frame.setLocation(startX, startY);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(true);
-		//frame.setUndecorated(true);
+		frame.setUndecorated(true);
 		frame.setLayout(new BorderLayout(3,3));
 		frame.add(temperatureLabel, BorderLayout.NORTH);
 		frame.add(weatherTypeLabel, BorderLayout.CENTER);
@@ -103,5 +102,24 @@ public class WidgetWindow {
 		this.countryCodeLabel.setText(weatherData.getCountryCode() + ",");
 		this.countryNameLabel.setText(weatherData.getCityName());
 	}
-
+	
+	/**
+	 * Making the window transparent
+	 * @author arc 
+	 * @param opacity The value of Transparency (1 to 10, otherwise the default value is 5).
+	 * Pass lesser values to make the window more transparent.
+	 * @see http://stackoverflow.com/questions/22027247/java-setting-background-from-jar-and-making-it-transparent
+	 */
+	
+	private void setTransparency(float opacity)
+	{
+		if( (opacity < 1) || (opacity > 10))
+		{
+			opacity = 5;
+		}
+		
+		float fOpacity = (float) opacity / 10;
+		String sOpacity = Float.toString(fOpacity) + "f";
+		frame.setOpacity(Float.parseFloat(sOpacity));
+	}
 }
