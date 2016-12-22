@@ -25,11 +25,11 @@ public class ServiceProvider implements ServiceProviderInterface {
 
 	public ServiceProvider() throws MalformedURLException {
 		super();
-		this.name = "Open Weather Map";
-		this.apiKey = "b4fdc5e7a35e6a2c9e95b0b2c6a69600";
-		this.apiCallUrl = "http://api.openweathermap.org/data/2.5/weather?q=";
-		this.apiCallUrlParams = "Budapest,hu&units=metric&APPID=" + this.apiKey;
-		this.queryString = new URL(this.apiCallUrl + this.apiCallUrlParams);
+		name = "Open Weather Map";
+		apiKey = "b4fdc5e7a35e6a2c9e95b0b2c6a69600";
+		apiCallUrl = "http://api.openweathermap.org/data/2.5/weather?q=";
+		apiCallUrlParams = "Budapest,hu&units=metric&APPID=" + apiKey;
+		queryString = new URL(apiCallUrl + apiCallUrlParams);
 	}
 	
 	public ApiResponse getWeatherData() throws JsonIOException, JsonSyntaxException, IOException
