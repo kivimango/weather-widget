@@ -1,6 +1,12 @@
 package kivimango.weatherwidget.model;
 
+import java.util.HashMap;
+
+import javax.swing.ImageIcon;
+
 public class ApiResponse {
+	
+	private HashMap<String, ImageIcon> iconSet = new HashMap<>();
 
 	private String countryCode = "";
 	
@@ -9,6 +15,8 @@ public class ApiResponse {
 	private String weatherType = "";
 	
 	private String weatherDescription = "";
+	
+	private String weatherIcon = "http://openweathermap.org/img/w/";
 	
 	private double temperature = 0.0;
 	
@@ -31,6 +39,17 @@ public class ApiResponse {
 	private long sunries = 0;
 	
 	private long sunset = 0;
+
+	public ApiResponse() {
+		iconSet.put("cloudy", new ImageIcon("D:\\cloudy.png"));
+		iconSet.put("drizzle", new ImageIcon("D:\\drizzle"));
+		iconSet.put("haze", new ImageIcon("D:\\drizzle"));
+		iconSet.put("mostly_cloudy", new ImageIcon("D:\\mostly_cloudy.png"));
+		iconSet.put("slight_drizzle", new ImageIcon("D:\\slight_drizzle"));
+		iconSet.put("snow", new ImageIcon("D:\\snow.png"));
+		iconSet.put("sunny", new ImageIcon("D:\\sunny.png"));
+		iconSet.put("thunderstorms", new ImageIcon("D:\\thunderstorms.png"));
+	}
 
 	public String getCountryCode() {
 		return countryCode;
@@ -58,6 +77,14 @@ public class ApiResponse {
 
 	public String getWeatherDescription() {
 		return weatherDescription;
+	}
+
+	public String getWeatherIcon() {
+		return weatherIcon;
+	}
+
+	public void setWeatherIcon(String weatherIcon) {
+		this.weatherIcon += weatherIcon + ".png";
 	}
 
 	public void setWeatherDescription(String weatherDescription) {

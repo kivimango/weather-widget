@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonIOException;
@@ -57,23 +56,14 @@ public class ServiceProvider implements ServiceProviderInterface {
 		double temperature =  responseToProcess.get("main").getAsJsonObject().get("temp").getAsDouble();
 		String tempCountryCode = responseToProcess.get("sys").getAsJsonObject().get("country").getAsString();
 		String tempCityName = responseToProcess.get("name").getAsString();
-		//int tempPressure = responseToProcess.get("main").getAsJsonObject().get("pressure").getAsInt();
-		//int tempHumidity = responseToProcess.get("main").getAsJsonObject().get("humidity").getAsInt();
-		//int tempMin =  responseToProcess.get("main").getAsJsonObject().get("temp_min").getAsInt();
-		//int tempMax =  responseToProcess.get("main").getAsJsonObject().get("temp_max").getAsInt();
-		//int tempVisibility = responseToProcess.get("main").getAsJsonObject().get("visibility").getAsInt();
-		//double tempWindSpeed =  responseToProcess.get("main").getAsJsonObject().get("wind").getAsJsonObject().get("speed").getAsDouble();
-		//int tempWindDegree =  responseToProcess.get("main").getAsJsonObject().get("wind").getAsJsonObject().get("deg").getAsInt();
-		
-		//int tempCloudiness =  responseToProcess.get("main").getAsJsonObject().get("clouds").getAsJsonObject().get("all").getAsInt();
+		String iconn = tempWeatherInfo.get(0).getAsJsonObject().get("icon").getAsString();
 		
 		response.setWeatherType(tempWeatherType);
 		response.setWeatherDescription(tempWeatherDescription);
 		response.setTemperature(temperature);
-		//response.setPressure(tempPressure);
-		//response.setHumidity(tempHumidity);
 		response.setCountryCode(tempCountryCode);
 		response.setCityName(tempCityName);		
+		response.setWeatherIcon(iconn);
 		
 		return response;
 	}
