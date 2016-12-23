@@ -1,16 +1,3 @@
-/**
- * Desktop Weather Widget
- * 
- * Displays the current weather information on your desktop in a little, fancy window.
- * 
- * @author		kivimango	dev@kivimango.hu
- * @copyright	kivimango	https://github.com/kivimango/weather-widget
- * @license		MIT License	https://opensource.org/licenses/MIT
- * @version		0.1
- * @since		0.1
- * @package 	kivimango.weatherwidget.model
- */
-
 package kivimango.weatherwidget.model;
 
 import kivimango.weatherwidget.model.ServiceProvider;
@@ -20,6 +7,19 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
+
+/**
+ * Desktop Weather Widget
+ * 
+ * Displays the current weather information on your desktop in a little, fancy window.
+ * 
+ * @author		kivimango	dev@kivimango.hu
+ * @copyright	kivimango	
+ * @license		MIT License	https://opensource.org/licenses/MIT
+ * @version		0.1
+ * @since		0.1
+ * @package 	kivimango.weatherwidget.model
+ */
 
 public class WeatherWidget {
 

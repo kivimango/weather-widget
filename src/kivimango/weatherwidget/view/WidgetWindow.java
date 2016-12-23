@@ -1,3 +1,19 @@
+package kivimango.weatherwidget.view;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.Toolkit;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+import kivimango.weatherwidget.model.ApiResponse;
+import kivimango.weatherwidget.view.CloseButton;
+
 /**
  * Implementation of the Widget's window which will display the weather details
  * 
@@ -9,37 +25,36 @@
  * @package 	kivimango.weatherwidget.view
  */
 
-package kivimango.weatherwidget.view;
-
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Toolkit;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import kivimango.weatherwidget.model.ApiResponse;
-
 public class WidgetWindow {
 	
-	ApiResponse weatherData = new ApiResponse(); 
+	ApiResponse weatherData = new ApiResponse();
+    
+	JPanel upperButtonPanel = new JPanel();
+	
+	JPanel detailPanel = new JPanel();
+	
+	CloseButton closeButton = new CloseButton();
 	
 	JLabel temperatureLabel = new JLabel();
 	JLabel weatherTypeLabel = new JLabel();
 	JLabel countryCodeLabel = new JLabel();
 	JLabel countryNameLabel = new JLabel();
-	JFrame frame = initWindow();
 	
-	// TO-DO: there is a bug on setting the window's background color...fix it
+	JFrame frame = initWindow();
 	
 	Color windowBackgroundColor = new Color(236, 86 , 62);
 	Color windowBackgroundColor2 = new Color(51, 73, 96);
 	
 	public WidgetWindow(ApiResponse response)
 	{
-		this.weatherData = response;
+		weatherData = response;
 		setWeatherData();
 		setTransparency(4);
+		
+		//JLabel background = new JLabel(new ImageIcon("D:\\foggy_2_hd.jpg"));
+		
+		//upperButtonPanel.add(background);
+		
 		frame.setVisible(true);
 	}
 	
@@ -50,14 +65,24 @@ public class WidgetWindow {
 		Dimension frameSize = frame.getSize();
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		
-		int startX = (screenSize.width - frameSize.width) - 150;
-		int startY = (screenSize.height - frameSize.width) - 250;
+		int startX = (screenSize.width - frameSize.width) - 275;
+		int startY = (screenSize.height - frameSize.height) - 650;
+		
+		upperButtonPanel.add(closeButton, JPanel.RIGHT_ALIGNMENT);
+		upperButtonPanel.setOpaque(false);
+		upperButtonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		
+		detailPanel.setOpaque(false);
+		
+		frame.add(upperButtonPanel);
 		
 		this.temperatureLabel.setOpaque(false);
 		this.temperatureLabel.setForeground(Color.WHITE);
 		this.temperatureLabel.setFont(new Font("SansSerif", Font.BOLD, 30));
-		this.temperatureLabel.setHorizontalAlignment(JLabel.CENTER);
+		this.temperatureLabel.setHorizontalAlignment(JLabel.LEFT);
 		this.temperatureLabel.setName("temperatureLabel");
+		
+		detailPanel.add(temperatureLabel);
 		
 		this.weatherTypeLabel.setOpaque(false);
 		this.weatherTypeLabel.setForeground(Color.WHITE);
@@ -65,11 +90,15 @@ public class WidgetWindow {
 		this.weatherTypeLabel.setHorizontalAlignment(JLabel.CENTER);
 		this.weatherTypeLabel.setName("weatherTypeLabel");
 		
+		detailPanel.add(weatherTypeLabel);
+		
 		this.countryCodeLabel.setOpaque(false);
 		this.countryCodeLabel.setForeground(Color.WHITE);
 		this.countryCodeLabel.setFont(new Font("SansSerif", Font.BOLD, 25));
 		this.countryCodeLabel.setHorizontalAlignment(JLabel.LEFT);
 		this.countryCodeLabel.setName("countryCodeLabel");
+		
+		detailPanel.add(countryCodeLabel);
 		
 		this.countryNameLabel.setOpaque(false);
 		this.countryNameLabel.setForeground(Color.WHITE);
@@ -78,30 +107,28 @@ public class WidgetWindow {
 		this.countryNameLabel.setName("countryNameLabel");
 		this.countryNameLabel.setText(weatherData.getCityName());
 		
-		frame.setMinimumSize(new Dimension(100,200));
+		detailPanel.add(countryNameLabel);
+		
+		frame.add(detailPanel);
+		
+		frame.setMinimumSize(new Dimension(250,600));
 		frame.setAlwaysOnTop(true);
-		//frame.getContentPane().setBackground(new Color(236, 86 , 62));
 		frame.getContentPane().setBackground(Color.black);
 		frame.setLocation(startX, startY);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(true);
 		frame.setUndecorated(true);
-		frame.setLayout(new BorderLayout(3,3));
-		frame.add(temperatureLabel, BorderLayout.NORTH);
-		frame.add(weatherTypeLabel, BorderLayout.CENTER);
-		frame.add(countryCodeLabel, BorderLayout.SOUTH);
-		frame.add(countryNameLabel, BorderLayout.SOUTH);
+		frame.setLayout(new GridLayout(4,0));
 		
 		return frame;
 	}
 	
 	private void setWeatherData()
 	{
-		this.temperatureLabel.setText(weatherData.getTemperature() + "\u00b0C");
-		this.weatherTypeLabel.setText(weatherData.getWeatherType());
-		this.countryCodeLabel.setText(weatherData.getCountryCode() + ",");
-		this.countryNameLabel.setText(weatherData.getCityName());
-	}
+		temperatureLabel.setText(weatherData.getTemperature() + "\u00b0C");
+		weatherTypeLabel.setText(weatherData.getWeatherType());
+		countryCodeLabel.setText(weatherData.getCountryCode() + ",");
+		countryNameLabel.setText(weatherData.getCityName());
+	}	
 	
 	/**
 	 * Making the window transparent
