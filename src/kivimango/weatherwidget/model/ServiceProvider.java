@@ -1,6 +1,6 @@
 package kivimango.weatherwidget.model;
 
-import kivimango.weatherwidget.model.ApiResponse;
+import kivimango.weatherwidget.model.Weather;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -17,21 +17,21 @@ public class ServiceProvider implements ServiceProviderInterface {
 	
 	private String name;
 	private String apiCallUrl;
-	private String apiCallUrlParams;
+	private String city;
 	private String apiKey;
 	private URL queryString;
-	private ApiResponse response = new ApiResponse();
+	private Weather response = new Weather();
 
 	public ServiceProvider() throws MalformedURLException {
 		super();
 		name = "Open Weather Map";
 		apiKey = "b4fdc5e7a35e6a2c9e95b0b2c6a69600";
 		apiCallUrl = "http://api.openweathermap.org/data/2.5/weather?q=";
-		apiCallUrlParams = "Budapest,hu&units=metric&APPID=" + apiKey;
-		queryString = new URL(apiCallUrl + apiCallUrlParams);
+		city = "Budapest,hu";
+		queryString = new URL(apiCallUrl + city + "&units=metric&APPID=" + apiKey);
 	}
 	
-	public ApiResponse getWeatherData() throws JsonIOException, JsonSyntaxException, IOException
+	public Weather getWeatherData() throws JsonIOException, JsonSyntaxException, IOException
 	{
 		JsonObject responseFromProvider = this.doApiCall();
 		response = this.processDataFromProvider(responseFromProvider);
@@ -39,7 +39,7 @@ public class ServiceProvider implements ServiceProviderInterface {
 		return response;
 	}
 	
-	private JsonObject doApiCall() throws JsonIOException, JsonSyntaxException, IOException
+	public JsonObject doApiCall() throws JsonIOException, JsonSyntaxException, IOException
 	{
 		JsonParser parser = new JsonParser();
 		JsonElement rootElement = parser.parse(new InputStreamReader(queryString.openStream()));
@@ -48,7 +48,7 @@ public class ServiceProvider implements ServiceProviderInterface {
 		return responseJson;
 	}
 	
-	private ApiResponse processDataFromProvider(JsonObject responseToProcess)
+	public Weather processDataFromProvider(JsonObject responseToProcess)
 	{
 		JsonArray tempWeatherInfo = responseToProcess.get("weather").getAsJsonArray();
 		String tempWeatherType = tempWeatherInfo.get(0).getAsJsonObject().get("main").getAsString();

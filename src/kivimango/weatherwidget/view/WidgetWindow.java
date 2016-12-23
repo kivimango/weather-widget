@@ -14,7 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import kivimango.weatherwidget.model.ApiResponse;
+import kivimango.weatherwidget.model.Weather;
 import kivimango.weatherwidget.view.CloseButton;
 
 /**
@@ -30,7 +30,7 @@ import kivimango.weatherwidget.view.CloseButton;
 
 public class WidgetWindow {
 	
-	ApiResponse weatherData = new ApiResponse();
+	Weather weatherData = new Weather();
     
 	JPanel upperButtonPanel = new JPanel();
 	
@@ -51,11 +51,10 @@ public class WidgetWindow {
 	Color windowBackgroundColor = new Color(236, 86 , 62);
 	Color windowBackgroundColor2 = new Color(51, 73, 96);
 	
-	public WidgetWindow(ApiResponse response) throws MalformedURLException
+	public WidgetWindow(Weather response) throws MalformedURLException
 	{
 		weatherData = response;
 		icon = new ImageIcon(new URL(weatherData.getWeatherIcon()));
-		System.out.println(icon);
 		setWeatherData();
 		setTransparency(5);
 		

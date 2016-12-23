@@ -25,15 +25,20 @@ public class WeatherWidget {
 
 	public static void main(String[] args) throws MalformedURLException {
 		ServiceProvider provider = new ServiceProvider();
-		ApiResponse response = new ApiResponse();
+		Weather response = new Weather();
 		
 		try {
 			response = provider.getWeatherData();
 			WidgetWindow window = new WidgetWindow(response);
 			System.out.println("A hõmérséklet: " + response.getTemperature());
 			System.out.println("Idõjárás: " + response.getWeatherType() + ", " + response.getWeatherDescription());	
-		} catch (JsonIOException | JsonSyntaxException | IOException e) {
-			System.out.println("Cannot retrieve information from the provider: "+provider.getName()+" ! (Invalid url)");
+		} catch (JsonIOException e) {
+			System.out.println("Cannot retrieve information from the provider: "+provider.getName()+" ! (Service not available !)");
+		} catch ( JsonSyntaxException ee) {
+			System.out.println("Cannot retrieve information from the provider: "+provider.getName()+" ! (Invalid URL !)");
+		} catch ( IOException eee) {
+			System.out.println("Cannot retrieve information from the provider: "+provider.getName()+" ! (Unable to read stream !)");
 		}
+		
 	}
 }

@@ -33,14 +33,7 @@ public class Weather {
 	private double temperature = 0.0;
 	
 	public Weather() {
-		iconSet.put("cloudy", new ImageIcon("D:\\cloudy.png"));
-		iconSet.put("drizzle", new ImageIcon("D:\\drizzle"));
-		iconSet.put("haze", new ImageIcon("D:\\drizzle"));
-		iconSet.put("mostly_cloudy", new ImageIcon("D:\\mostly_cloudy.png"));
-		iconSet.put("slight_drizzle", new ImageIcon("D:\\slight_drizzle"));
-		iconSet.put("snow", new ImageIcon("D:\\snow.png"));
-		iconSet.put("sunny", new ImageIcon("D:\\sunny.png"));
-		iconSet.put("thunderstorms", new ImageIcon("D:\\thunderstorms.png"));
+		
 	}
 
 	public String getCountryCode() {
