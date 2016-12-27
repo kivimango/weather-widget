@@ -28,8 +28,10 @@ import kivimango.weatherwidget.view.CloseButton;
  * @package 	kivimango.weatherwidget.view
  */
 
-public class WidgetWindow {
+public class WidgetWindow extends JFrame {
 	
+	private static final long serialVersionUID = 1L;
+
 	Weather weatherData = new Weather();
 	
 	private HashMap<String, String> backgroundList = new HashMap<>();
@@ -50,83 +52,87 @@ public class WidgetWindow {
 	JLabel countryCodeLabel = new JLabel();
 	JLabel countryNameLabel = new JLabel();
 	
-	JFrame frame = initWindow();
-	
 	public WidgetWindow(Weather response) throws MalformedURLException
 	{
+		initWindow();
 		weatherData = response;
 		fillBackGroundList();
 		setWeatherData();
 		setBackgroundByWeatherCondition(weatherData.getWeatherType());
 		setTransparency(10);
+		
+		setUpBackground();
+		setUpUpperButtonPanel();
+		setUpDetailPanel();
 	
-		frame.setVisible(true);
+		setVisible(true);
 	}
 	
-	private JFrame initWindow()
-	{
-		JFrame frame = new JFrame("Desktop Weather Widget");
-		
-		Dimension frameSize = frame.getSize();
+	private void initWindow()
+	{	
+		Dimension frameSize = getSize();
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		
 		int startX = (screenSize.width - frameSize.width) - 275;
 		int startY = (screenSize.height - frameSize.height) - 650;
 		
-		frame.setLayout(new BorderLayout(5, 5));
-		backgroundPanel.setLayout(new BorderLayout());		
-		
+		setTitle("Desktop Weather Widget");
+		setLayout(new BorderLayout(5, 5));	
+		add(backgroundPanel);
+		setMinimumSize(new Dimension(200,600));
+		setLocation(startX, startY);
+		setResizable(false);
+		setUndecorated(true);
+		pack();
+	}
+	
+	private void setUpBackground()
+	{
+		backgroundPanel.setLayout(new BorderLayout());
+	}
+	
+	private void setUpUpperButtonPanel()
+	{
 		upperButtonPanel.add(closeButton, BorderLayout.EAST);
 		upperButtonPanel.setOpaque(false);
-		//upperButtonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-		
-		detailPanel.setOpaque(false);
-		//detailPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-		
 		backgroundPanel.add(upperButtonPanel, BorderLayout.PAGE_START);
+	}
+	
+	private void setUpDetailPanel()
+	{
+		detailPanel.setOpaque(false);
 		
-		this.temperatureLabel.setOpaque(false);
-		this.temperatureLabel.setForeground(Color.WHITE);
-		this.temperatureLabel.setFont(new Font("SansSerif", Font.BOLD, 66));
-		this.temperatureLabel.setName("temperatureLabel");
+		temperatureLabel.setOpaque(false);
+		temperatureLabel.setForeground(Color.WHITE);
+		temperatureLabel.setFont(new Font("SansSerif", Font.BOLD, 66));
+		temperatureLabel.setName("temperatureLabel");
 		
 		detailPanel.add(temperatureLabel, BorderLayout.CENTER);
 		
 		detailPanel.add(weatherIcon);
 		
-		this.weatherTypeLabel.setOpaque(false);
-		this.weatherTypeLabel.setForeground(Color.WHITE);
-		this.weatherTypeLabel.setFont(new Font("SansSerif", Font.BOLD, 30));
-		this.weatherTypeLabel.setName("weatherTypeLabel");
+		weatherTypeLabel.setOpaque(false);
+		weatherTypeLabel.setForeground(Color.WHITE);
+		weatherTypeLabel.setFont(new Font("SansSerif", Font.BOLD, 30));
+		weatherTypeLabel.setName("weatherTypeLabel");
 		
 		detailPanel.add(weatherTypeLabel);
 		
-		this.countryCodeLabel.setOpaque(false);
-		this.countryCodeLabel.setForeground(Color.WHITE);
-		this.countryCodeLabel.setFont(new Font("SansSerif", Font.BOLD, 25));
-		this.countryCodeLabel.setName("countryCodeLabel");
+		countryCodeLabel.setOpaque(false);
+		countryCodeLabel.setForeground(Color.WHITE);
+		countryCodeLabel.setFont(new Font("SansSerif", Font.BOLD, 25));
+		countryCodeLabel.setName("countryCodeLabel");
 		
 		detailPanel.add(countryCodeLabel, BorderLayout.LINE_START);
 		
-		this.countryNameLabel.setOpaque(false);
-		this.countryNameLabel.setForeground(Color.WHITE);
-		this.countryNameLabel.setFont(new Font("SansSerif", Font.BOLD, 25));
-		this.countryNameLabel.setName("countryNameLabel");
+		countryNameLabel.setOpaque(false);
+		countryNameLabel.setForeground(Color.WHITE);
+		countryNameLabel.setFont(new Font("SansSerif", Font.BOLD, 25));
+		countryNameLabel.setName("countryNameLabel");
 		
 		detailPanel.add(countryNameLabel, BorderLayout.LINE_END);
 		
 		backgroundPanel.add(detailPanel);
-		
-		frame.add(backgroundPanel);
-		
-		frame.setMinimumSize(new Dimension(200,600));
-		frame.setLocation(startX, startY);
-		frame.setResizable(false);
-		frame.setUndecorated(true);
-		
-		frame.pack();
-			
-		return frame;
 	}
 	
 	private void setWeatherData()
@@ -196,6 +202,6 @@ public class WidgetWindow {
 		
 		float fOpacity = (float) opacity / 10;
 		String sOpacity = Float.toString(fOpacity) + "f";
-		frame.setOpacity(Float.parseFloat(sOpacity));
+		setOpacity(Float.parseFloat(sOpacity));
 	}
 }
