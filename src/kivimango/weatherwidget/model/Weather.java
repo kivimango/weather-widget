@@ -28,7 +28,7 @@ public class Weather {
 	
 	private String weatherDescription = "";
 	
-	private String weatherIcon = "http://openweathermap.org/img/w/";
+	private String weatherIcon = "";
 	
 	private double temperature = 0.0;
 	
