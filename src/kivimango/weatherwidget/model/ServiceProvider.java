@@ -20,6 +20,7 @@ public class ServiceProvider implements ServiceProviderInterface {
 	private String city;
 	private String apiKey;
 	private URL queryString;
+	private String iconUrl = "http://openweathermap.org/img/w/";
 	private Weather response = new Weather();
 
 	public ServiceProvider() throws MalformedURLException {
@@ -63,7 +64,9 @@ public class ServiceProvider implements ServiceProviderInterface {
 		response.setTemperature(temperature);
 		response.setCountryCode(tempCountryCode);
 		response.setCityName(tempCityName);		
-		response.setWeatherIcon(iconn);
+		response.setWeatherIcon(iconUrl + iconn);
+		
+		System.out.println(iconUrl + iconn + ".png");
 		
 		return response;
 	}
