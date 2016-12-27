@@ -3,11 +3,11 @@ package kivimango.weatherwidget.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -31,7 +31,11 @@ import kivimango.weatherwidget.view.CloseButton;
 public class WidgetWindow {
 	
 	Weather weatherData = new Weather();
+	
+	private HashMap<String, String> backgroundList = new HashMap<>();
     
+	JLabel backgroundPanel = new JLabel();
+	
 	JPanel upperButtonPanel = new JPanel();
 	
 	JPanel detailPanel = new JPanel();
@@ -48,18 +52,13 @@ public class WidgetWindow {
 	
 	JFrame frame = initWindow();
 	
-	Color windowBackgroundColor = new Color(236, 86 , 62);
-	Color windowBackgroundColor2 = new Color(51, 73, 96);
-	
 	public WidgetWindow(Weather response) throws MalformedURLException
 	{
 		weatherData = response;
-		icon = new ImageIcon(new URL(weatherData.getWeatherIcon()));
+		fillBackGroundList();
 		setWeatherData();
-		setTransparency(5);
-		
-		//JLabel background = new JLabel(new ImageIcon("D:\\foggy_2_hd.jpg"));
-		//upperButtonPanel.add(background);
+		setBackgroundByWeatherCondition(weatherData.getWeatherType());
+		setTransparency(10);
 	
 		frame.setVisible(true);
 	}
@@ -75,22 +74,23 @@ public class WidgetWindow {
 		int startY = (screenSize.height - frameSize.height) - 650;
 		
 		frame.setLayout(new BorderLayout(5, 5));
+		backgroundPanel.setLayout(new BorderLayout());		
 		
-		upperButtonPanel.add(closeButton);
+		upperButtonPanel.add(closeButton, BorderLayout.EAST);
 		upperButtonPanel.setOpaque(false);
-		upperButtonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		//upperButtonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		
 		detailPanel.setOpaque(false);
-		detailPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+		//detailPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		
-		frame.add(upperButtonPanel, BorderLayout.NORTH);
+		backgroundPanel.add(upperButtonPanel, BorderLayout.PAGE_START);
 		
 		this.temperatureLabel.setOpaque(false);
 		this.temperatureLabel.setForeground(Color.WHITE);
 		this.temperatureLabel.setFont(new Font("SansSerif", Font.BOLD, 66));
 		this.temperatureLabel.setName("temperatureLabel");
 		
-		detailPanel.add(temperatureLabel);
+		detailPanel.add(temperatureLabel, BorderLayout.CENTER);
 		
 		detailPanel.add(weatherIcon);
 		
@@ -112,18 +112,19 @@ public class WidgetWindow {
 		this.countryNameLabel.setForeground(Color.WHITE);
 		this.countryNameLabel.setFont(new Font("SansSerif", Font.BOLD, 25));
 		this.countryNameLabel.setName("countryNameLabel");
-		this.countryNameLabel.setText(weatherData.getCityName());
 		
 		detailPanel.add(countryNameLabel, BorderLayout.LINE_END);
 		
-		frame.add(detailPanel);
+		backgroundPanel.add(detailPanel);
+		
+		frame.add(backgroundPanel);
 		
 		frame.setMinimumSize(new Dimension(200,600));
-		frame.setAlwaysOnTop(true);
-		frame.getContentPane().setBackground(Color.black);
 		frame.setLocation(startX, startY);
 		frame.setResizable(false);
 		frame.setUndecorated(true);
+		
+		frame.pack();
 			
 		return frame;
 	}
@@ -131,14 +132,52 @@ public class WidgetWindow {
 	private void setWeatherData()
 	{
 		temperatureLabel.setText(weatherData.getTemperature() + "\u00b0C");
-		weatherIcon.setIcon(icon);
-		weatherTypeLabel.setText(weatherData.getWeatherType());
+		try {
+			weatherIcon.setIcon(new ImageIcon(new URL(weatherData.getWeatherIcon())));
+		} catch (MalformedURLException e) {
+			weatherIcon.setIcon(new ImageIcon());
+		}
 		
-		// Bug : make the countryCode label appear in the next line without displaying space characters 
+		weatherTypeLabel.setText(weatherData.getWeatherType() + "   ");
 		
-		countryCodeLabel.setText(weatherData.getCountryCode() + ",                         ");
+		countryCodeLabel.setText(weatherData.getCountryCode() + ", ");
 		countryNameLabel.setText(weatherData.getCityName());
 	}	
+	
+	/**
+	 * Filling the hash map with the predefined background file's names and extensions
+	 * @see https://openweathermap.org/weather-conditions
+	 */
+	
+	private void fillBackGroundList()
+	{
+		backgroundList.put("additional", "additional.jpg");
+		backgroundList.put("atmosphere", "atmosphere.jpg");
+		backgroundList.put("clear", "clear.jpg");
+		backgroundList.put("clouds", "clouds.jpg");
+		backgroundList.put("drizzle", "drizzle.jpg");
+		backgroundList.put("extreme", "extreme.jpg");
+		backgroundList.put("rain", "rain.jpg");
+		backgroundList.put("thunderstorm", "thunderstorm.jpg");
+		backgroundList.put("snow", "snow.jpg");
+	}
+	
+	/**
+	 * Setting the main JFrame's background based on the weather condition string e.g. "Sunny" or "Clouds"
+	 * TO-DO: If the file doesn't exists, the script will be fall back to the default (sunny) background
+	 * @param condition The Weather condition from the JSON response
+	 */
+	
+	private void setBackgroundByWeatherCondition(String condition)
+	{
+		condition = condition.toLowerCase();
+		
+		if (backgroundList.containsKey(condition))
+		{
+			System.out.println(backgroundList.get(condition));
+			backgroundPanel.setIcon(new ImageIcon("D:\\" + backgroundList.get(condition)));
+		}
+	}
 	
 	/**
 	 * Making the window transparent
@@ -159,5 +198,4 @@ public class WidgetWindow {
 		String sOpacity = Float.toString(fOpacity) + "f";
 		frame.setOpacity(Float.parseFloat(sOpacity));
 	}
-
 }
