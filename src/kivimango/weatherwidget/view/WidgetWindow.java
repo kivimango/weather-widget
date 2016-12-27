@@ -104,7 +104,7 @@ public class WidgetWindow extends JFrame {
 		
 		temperatureLabel.setOpaque(false);
 		temperatureLabel.setForeground(Color.WHITE);
-		temperatureLabel.setFont(new Font("SansSerif", Font.BOLD, 66));
+		temperatureLabel.setFont(new Font("SansSerif", Font.BOLD, 44));
 		temperatureLabel.setName("temperatureLabel");
 		
 		detailPanel.add(temperatureLabel, BorderLayout.CENTER);
@@ -163,6 +163,7 @@ public class WidgetWindow extends JFrame {
 		backgroundList.put("clouds", "clouds.jpg");
 		backgroundList.put("drizzle", "drizzle.jpg");
 		backgroundList.put("extreme", "extreme.jpg");
+		backgroundList.put("mist", "fog.jpg");
 		backgroundList.put("rain", "rain.jpg");
 		backgroundList.put("thunderstorm", "thunderstorm.jpg");
 		backgroundList.put("snow", "snow.jpg");
