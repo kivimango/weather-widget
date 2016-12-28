@@ -5,10 +5,13 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -51,6 +54,8 @@ public class WidgetWindow extends JFrame {
 	JLabel weatherTypeLabel = new JLabel();
 	JLabel countryCodeLabel = new JLabel();
 	JLabel countryNameLabel = new JLabel();
+	
+	final String backgroundFolder = "/backgrounds/";
 	
 	public WidgetWindow(Weather response) throws MalformedURLException
 	{
@@ -182,7 +187,16 @@ public class WidgetWindow extends JFrame {
 		if (backgroundList.containsKey(condition))
 		{
 			System.out.println(backgroundList.get(condition));
-			backgroundPanel.setIcon(new ImageIcon("D:\\" + backgroundList.get(condition)));
+			try {
+				BufferedImage bg = null;
+				bg = ImageIO.read(getClass().getResource(backgroundFolder + backgroundList.get(condition)));
+				backgroundPanel.setIcon(new ImageIcon(bg));
+			} catch (IOException | IllegalArgumentException e) {
+				
+				// Background picture not found, fall back to the default black colored background
+				
+				this.setBackground(Color.black);
+			}
 		}
 	}
 	
