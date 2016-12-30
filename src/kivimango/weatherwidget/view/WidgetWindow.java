@@ -13,7 +13,6 @@ import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -57,6 +56,8 @@ public class WidgetWindow extends JFrame {
 	JLabel countryCodeLabel = new JLabel();
 	JLabel countryNameLabel = new JLabel();
 	
+	SettingsPanel settingsPanel = new SettingsPanel();
+	
 	final String backgroundFolder = "/backgrounds/";
 	
 	public WidgetWindow(Weather response) throws MalformedURLException
@@ -91,6 +92,9 @@ public class WidgetWindow extends JFrame {
 		setLocation(startX, startY);
 		setResizable(false);
 		setUndecorated(true);
+		
+		add(settingsPanel);
+		
 		pack();
 	}
 	
