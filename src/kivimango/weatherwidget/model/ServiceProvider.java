@@ -17,9 +17,11 @@ public class ServiceProvider implements ServiceProviderInterface {
 	
 	private String name;
 	private String apiCallUrl;
+	private String forecastApiUrl;
 	private String city;
 	private String apiKey;
 	private URL queryString;
+	private URL forecastQueryString;
 	private String iconUrl = "http://openweathermap.org/img/w/";
 	private Weather response = new Weather();
 
@@ -28,8 +30,10 @@ public class ServiceProvider implements ServiceProviderInterface {
 		name = "Open Weather Map";
 		apiKey = "b4fdc5e7a35e6a2c9e95b0b2c6a69600";
 		apiCallUrl = "http://api.openweathermap.org/data/2.5/weather?q=";
+		forecastApiUrl = "http://api.openweathermap.org/data/2.5/forecast?q=";
 		city = "Budapest,hu";
 		queryString = new URL(apiCallUrl + city + "&units=metric&APPID=" + apiKey);
+		forecastQueryString = new URL(forecastApiUrl + city + "&units=metric&APPID=" + apiKey);
 	}
 	
 	public Weather getWeatherData() throws JsonIOException, JsonSyntaxException, IOException
