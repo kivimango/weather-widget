@@ -13,6 +13,7 @@ import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -48,6 +49,7 @@ public class WidgetWindow extends JFrame {
 	ImageIcon icon = new ImageIcon();
 	
 	CloseButton closeButton = new CloseButton();
+	SettingsButton settingsButton = new SettingsButton();
 	
 	JLabel temperatureLabel = new JLabel();
 	JLabel weatherIcon		= new JLabel();
@@ -60,6 +62,7 @@ public class WidgetWindow extends JFrame {
 	public WidgetWindow(Weather response) throws MalformedURLException
 	{
 		initWindow();
+		
 		weatherData = response;
 		fillBackGroundList();
 		setWeatherData();
@@ -97,8 +100,9 @@ public class WidgetWindow extends JFrame {
 	}
 	
 	private void setUpUpperButtonPanel()
-	{
+	{	
 		upperButtonPanel.add(closeButton, BorderLayout.EAST);
+		upperButtonPanel.add(settingsButton, BorderLayout.WEST);
 		upperButtonPanel.setOpaque(false);
 		backgroundPanel.add(upperButtonPanel, BorderLayout.PAGE_START);
 	}
