@@ -157,6 +157,7 @@ public class WidgetWindow extends JFrame {
 		}
 		
 		weatherTypeLabel.setText(weatherData.getWeatherType() + "   ");
+		weatherTypeLabel.setToolTipText(weatherData.getWeatherDescription());
 		
 		countryCodeLabel.setText(weatherData.getCountryCode() + ", ");
 		countryNameLabel.setText(weatherData.getCityName());
