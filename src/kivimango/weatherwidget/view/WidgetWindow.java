@@ -56,7 +56,7 @@ public class WidgetWindow extends JFrame {
 	JLabel countryCodeLabel = new JLabel();
 	JLabel countryNameLabel = new JLabel();
 	
-	SettingsPanel settingsPanel = new SettingsPanel();
+	static SettingsPanel settingsPanel = new SettingsPanel();
 	
 	final String backgroundFolder = "/backgrounds/";
 	
@@ -92,8 +92,6 @@ public class WidgetWindow extends JFrame {
 		setLocation(startX, startY);
 		setResizable(false);
 		setUndecorated(true);
-		
-		add(settingsPanel);
 		
 		pack();
 	}
@@ -146,6 +144,7 @@ public class WidgetWindow extends JFrame {
 		detailPanel.add(countryNameLabel, BorderLayout.LINE_END);
 		
 		backgroundPanel.add(detailPanel);
+		backgroundPanel.add(settingsPanel, BorderLayout.PAGE_END);
 	}
 	
 	private void setWeatherData()
@@ -174,9 +173,10 @@ public class WidgetWindow extends JFrame {
 		backgroundList.put("atmosphere", "atmosphere.jpg");
 		backgroundList.put("clear", "clear.jpg");
 		backgroundList.put("clouds", "clouds.jpg");
-		backgroundList.put("drizzle", "drizzle.jpg");
+		backgroundList.put("drizzle", "rain.jpg");
+		backgroundList.put("haze", "haze.jpg");
 		backgroundList.put("extreme", "extreme.jpg");
-		backgroundList.put("mist", "fog.jpg");
+		backgroundList.put("mist", "mist.jpg");
 		backgroundList.put("rain", "rain.jpg");
 		backgroundList.put("thunderstorm", "thunderstorm.jpg");
 		backgroundList.put("snow", "snow.jpg");
