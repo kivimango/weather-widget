@@ -42,6 +42,7 @@ public class SettingsButton extends JButton implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
+		WidgetWindow.settingsPanel.setVisible(true);
 	}
 	
 	private void seticonFromResource()
