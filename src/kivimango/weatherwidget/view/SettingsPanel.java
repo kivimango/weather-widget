@@ -74,7 +74,7 @@ public class SettingsPanel extends JPanel implements ActionListener {
 		cancelButton.addActionListener(this);
 		applyButton.addActionListener(this);
 		
-		setVisible(true);
+		setVisible(false);
 	}
 
 	@Override
