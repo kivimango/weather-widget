@@ -1,8 +1,8 @@
 package kivimango.weatherwidget.view;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
@@ -12,6 +12,7 @@ import java.net.URL;
 import java.util.HashMap;
 
 import javax.imageio.ImageIO;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -86,7 +87,6 @@ public class WidgetWindow extends JFrame {
 		int startY = (screenSize.height - frameSize.height) - 650;
 		
 		setTitle("Desktop Weather Widget");
-		setLayout(new BorderLayout(5, 5));	
 		add(backgroundPanel);
 		setMinimumSize(new Dimension(200,600));
 		setLocation(startX, startY);
@@ -98,53 +98,64 @@ public class WidgetWindow extends JFrame {
 	
 	private void setUpBackground()
 	{
-		backgroundPanel.setLayout(new BorderLayout());
+		backgroundPanel.setLayout(new BoxLayout(backgroundPanel, BoxLayout.PAGE_AXIS));
 	}
 	
 	private void setUpUpperButtonPanel()
 	{	
-		upperButtonPanel.add(closeButton, BorderLayout.EAST);
-		upperButtonPanel.add(settingsButton, BorderLayout.WEST);
+		upperButtonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		upperButtonPanel.add(settingsButton);
+		upperButtonPanel.add(closeButton);
 		upperButtonPanel.setOpaque(false);
-		backgroundPanel.add(upperButtonPanel, BorderLayout.PAGE_START);
+		upperButtonPanel.setMaximumSize(new Dimension(200, 100));
+		backgroundPanel.add(upperButtonPanel);
 	}
 	
 	private void setUpDetailPanel()
 	{
 		detailPanel.setOpaque(false);
 		
+		detailPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+		
 		temperatureLabel.setOpaque(false);
 		temperatureLabel.setForeground(Color.WHITE);
 		temperatureLabel.setFont(new Font("SansSerif", Font.BOLD, 44));
-		temperatureLabel.setName("temperatureLabel");
+		temperatureLabel.setMinimumSize(new Dimension(200, 50));
+		temperatureLabel.setMaximumSize(new Dimension(200, 50));
+		temperatureLabel.setPreferredSize(new Dimension(200, 50));
 		
-		detailPanel.add(temperatureLabel, BorderLayout.CENTER);
+		detailPanel.add(temperatureLabel);
+		
+		weatherIcon.setOpaque(false);
+		weatherIcon.setMinimumSize(new Dimension(50, 100));
+		weatherIcon.setMaximumSize(new Dimension(50, 100));
+		weatherIcon.setPreferredSize(new Dimension(50, 100));
 		
 		detailPanel.add(weatherIcon);
 		
 		weatherTypeLabel.setOpaque(false);
 		weatherTypeLabel.setForeground(Color.WHITE);
-		weatherTypeLabel.setFont(new Font("SansSerif", Font.BOLD, 30));
-		weatherTypeLabel.setName("weatherTypeLabel");
+		weatherTypeLabel.setFont(new Font("SansSerif", Font.BOLD, 25));
+		weatherTypeLabel.setMinimumSize(new Dimension(130, 100));
+		weatherTypeLabel.setMaximumSize(new Dimension(130, 100));
+		weatherTypeLabel.setPreferredSize(new Dimension(130, 100));
 		
 		detailPanel.add(weatherTypeLabel);
 		
 		countryCodeLabel.setOpaque(false);
 		countryCodeLabel.setForeground(Color.WHITE);
 		countryCodeLabel.setFont(new Font("SansSerif", Font.BOLD, 25));
-		countryCodeLabel.setName("countryCodeLabel");
 		
-		detailPanel.add(countryCodeLabel, BorderLayout.LINE_START);
+		detailPanel.add(countryCodeLabel);
 		
 		countryNameLabel.setOpaque(false);
 		countryNameLabel.setForeground(Color.WHITE);
 		countryNameLabel.setFont(new Font("SansSerif", Font.BOLD, 25));
-		countryNameLabel.setName("countryNameLabel");
 		
-		detailPanel.add(countryNameLabel, BorderLayout.LINE_END);
+		detailPanel.add(countryNameLabel);
 		
 		backgroundPanel.add(detailPanel);
-		backgroundPanel.add(settingsPanel, BorderLayout.PAGE_END);
+		backgroundPanel.add(settingsPanel);
 	}
 	
 	private void setWeatherData()
@@ -156,7 +167,7 @@ public class WidgetWindow extends JFrame {
 			weatherIcon.setIcon(new ImageIcon());
 		}
 		
-		weatherTypeLabel.setText(weatherData.getWeatherType() + "   ");
+		weatherTypeLabel.setText(weatherData.getWeatherType());
 		weatherTypeLabel.setToolTipText(weatherData.getWeatherDescription());
 		
 		countryCodeLabel.setText(weatherData.getCountryCode() + ", ");
