@@ -161,7 +161,7 @@ public class WidgetWindow extends JFrame {
 		
 		countryCodeLabel.setText(weatherData.getCountryCode() + ", ");
 		countryNameLabel.setText(weatherData.getCityName());
-	}	
+	}
 	
 	/**
 	 * Filling the hash map with the predefined background file's names and extensions
@@ -175,8 +175,9 @@ public class WidgetWindow extends JFrame {
 		backgroundList.put("clear", "clear.jpg");
 		backgroundList.put("clouds", "clouds.jpg");
 		backgroundList.put("drizzle", "rain.jpg");
-		backgroundList.put("haze", "haze.jpg");
 		backgroundList.put("extreme", "extreme.jpg");
+		backgroundList.put("fog", "fog.jpg");
+		backgroundList.put("haze", "haze.jpg");
 		backgroundList.put("mist", "mist.jpg");
 		backgroundList.put("rain", "rain.jpg");
 		backgroundList.put("thunderstorm", "thunderstorm.jpg");
