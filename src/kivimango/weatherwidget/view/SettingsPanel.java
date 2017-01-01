@@ -1,17 +1,19 @@
 package kivimango.weatherwidget.view;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.TitledBorder;
 
 /**
  * Setting up the Settings panel.
@@ -46,6 +48,7 @@ public class SettingsPanel extends JPanel implements ActionListener {
 		
 		constraints.gridx = 0;
 		constraints.gridy = 0;
+		cityLabel.setForeground(Color.white);
 		add(cityLabel, constraints);
 		
 		constraints.gridy = 1;
@@ -65,7 +68,10 @@ public class SettingsPanel extends JPanel implements ActionListener {
 		
 		add(applyButton, constraints);
 		
-		setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Settings"));
+		TitledBorder titledBorder = BorderFactory.createTitledBorder(null, "Settings", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("SansSerif", Font.BOLD, 13), Color.white);
+		//setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Settings"));
+		setBorder(titledBorder);
+		
 		setMaximumSize(new Dimension(200,300));
 		setPreferredSize(new Dimension(200,300));
 		setMinimumSize(new Dimension(200,300));
