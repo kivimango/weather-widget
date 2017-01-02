@@ -1,6 +1,7 @@
-package kivimango.weatherwidget.model;
+package kivimango.weatherwidget.controller;
 
 import kivimango.weatherwidget.model.ServiceProvider;
+import kivimango.weatherwidget.model.Weather;
 import kivimango.weatherwidget.view.WidgetWindow;
 
 import java.io.IOException;
@@ -18,7 +19,7 @@ import com.google.gson.JsonSyntaxException;
  * @license		MIT License	https://opensource.org/licenses/MIT
  * @version		0.1
  * @since		0.1
- * @package 	kivimango.weatherwidget.model
+ * @package 	kivimango.weatherwidget.controller
  */
 
 public class WeatherWidget {
@@ -29,6 +30,7 @@ public class WeatherWidget {
 		
 		try {
 			response = provider.getWeatherData();
+			@SuppressWarnings("unused")
 			WidgetWindow window = new WidgetWindow(response);
 			System.out.println("A hõmérséklet: " + response.getTemperature());
 			
