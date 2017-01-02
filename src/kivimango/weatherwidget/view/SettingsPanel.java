@@ -48,7 +48,7 @@ public class SettingsPanel extends JPanel implements ActionListener {
 		
 		constraints.gridx = 0;
 		constraints.gridy = 0;
-		cityLabel.setForeground(Color.white);
+		cityLabel.setForeground(Color.black);
 		add(cityLabel, constraints);
 		
 		constraints.gridy = 1;
@@ -68,14 +68,15 @@ public class SettingsPanel extends JPanel implements ActionListener {
 		
 		add(applyButton, constraints);
 		
-		TitledBorder titledBorder = BorderFactory.createTitledBorder(null, "Settings", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("SansSerif", Font.BOLD, 13), Color.white);
+		TitledBorder titledBorder = BorderFactory.createTitledBorder(null, "Settings", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("SansSerif", Font.BOLD, 13), Color.black);
 		//setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Settings"));
+		setBackground(Color.white);
 		setBorder(titledBorder);
-		
-		setMaximumSize(new Dimension(200,300));
+		setBounds(0, 200, 200, 300);
+		//setMaximumSize(new Dimension(200,300));
 		setPreferredSize(new Dimension(200,300));
-		setMinimumSize(new Dimension(200,300));
-		setOpaque(false);
+		//setMinimumSize(new Dimension(200,300));
+		setOpaque(true);
 		
 		cancelButton.addActionListener(this);
 		applyButton.addActionListener(this);

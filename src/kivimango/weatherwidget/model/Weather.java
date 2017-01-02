@@ -1,6 +1,8 @@
 package kivimango.weatherwidget.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 
@@ -31,6 +33,8 @@ public class Weather {
 	private String weatherIcon = "";
 	
 	private double temperature = 0.0;
+	
+	private List<WeatherForecast> forecast = new ArrayList<>();
 	
 	public Weather() {
 		
@@ -84,10 +88,19 @@ public class Weather {
 		this.temperature = temperature;
 	}
 	
+	public List<WeatherForecast> getForecast() {
+		return forecast;
+	}
+
+	public void setForecast(List<WeatherForecast> forecast) {
+		this.forecast = forecast;
+	}
+	
 	@Override
 	public String toString() {
 		return "Weather [iconSet=" + iconSet + ", countryCode=" + countryCode + ", cityName=" + cityName
 				+ ", weatherType=" + weatherType + ", weatherDescription=" + weatherDescription + ", weatherIcon="
 				+ weatherIcon + ", temperature=" + temperature + "]";
 	}
+
 }

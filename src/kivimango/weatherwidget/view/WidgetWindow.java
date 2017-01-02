@@ -4,21 +4,26 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.imageio.ImageIO;
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
 
 import kivimango.weatherwidget.model.Weather;
+import kivimango.weatherwidget.model.WeatherForecast;
 import kivimango.weatherwidget.view.CloseButton;
 
 /**
@@ -46,6 +51,8 @@ public class WidgetWindow extends JFrame {
 	
 	JPanel detailPanel = new JPanel();
 	
+	JPanel forecastPanel = new JPanel();
+	
 	ImageIcon icon = new ImageIcon();
 	
 	CloseButton closeButton = new CloseButton();
@@ -56,6 +63,8 @@ public class WidgetWindow extends JFrame {
 	JLabel weatherTypeLabel = new JLabel();
 	JLabel countryCodeLabel = new JLabel();
 	JLabel countryNameLabel = new JLabel();
+	
+	Calendar calendar = Calendar.getInstance();
 	
 	static SettingsPanel settingsPanel = new SettingsPanel();
 	
@@ -74,7 +83,8 @@ public class WidgetWindow extends JFrame {
 		setUpBackground();
 		setUpUpperButtonPanel();
 		setUpDetailPanel();
-	
+		setUpForecastPanel(weatherData.getForecast());
+		
 		setVisible(true);
 	}
 	
@@ -86,11 +96,12 @@ public class WidgetWindow extends JFrame {
 		int startX = (screenSize.width - frameSize.width) - 275;
 		int startY = (screenSize.height - frameSize.height) - 650;
 		
-		setTitle("Desktop Weather Widget");
 		add(backgroundPanel);
+		setLayout(null);
 		setMinimumSize(new Dimension(200,600));
 		setLocation(startX, startY);
 		setResizable(false);
+		setTitle("Desktop Weather Widget");
 		setUndecorated(true);
 		
 		pack();
@@ -98,64 +109,129 @@ public class WidgetWindow extends JFrame {
 	
 	private void setUpBackground()
 	{
-		backgroundPanel.setLayout(new BoxLayout(backgroundPanel, BoxLayout.PAGE_AXIS));
+		backgroundPanel.setBounds(0,0, 200, 600);
+		backgroundPanel.setLayout(null);
 	}
 	
 	private void setUpUpperButtonPanel()
-	{	
-		upperButtonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+	{
 		upperButtonPanel.add(settingsButton);
 		upperButtonPanel.add(closeButton);
+		upperButtonPanel.setBounds(0, 0, 200, 50);
+		upperButtonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		upperButtonPanel.setOpaque(false);
-		upperButtonPanel.setMaximumSize(new Dimension(200, 100));
+		
 		backgroundPanel.add(upperButtonPanel);
 	}
 	
 	private void setUpDetailPanel()
 	{
+		detailPanel.setBounds(0, 50, 200, 200);
+		detailPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		detailPanel.setOpaque(false);
 		
-		detailPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-		
-		temperatureLabel.setOpaque(false);
+		temperatureLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		temperatureLabel.setForeground(Color.WHITE);
 		temperatureLabel.setFont(new Font("SansSerif", Font.BOLD, 44));
 		temperatureLabel.setMinimumSize(new Dimension(200, 50));
 		temperatureLabel.setMaximumSize(new Dimension(200, 50));
+		temperatureLabel.setOpaque(false);
 		temperatureLabel.setPreferredSize(new Dimension(200, 50));
 		
 		detailPanel.add(temperatureLabel);
 		
-		weatherIcon.setOpaque(false);
 		weatherIcon.setMinimumSize(new Dimension(50, 100));
 		weatherIcon.setMaximumSize(new Dimension(50, 100));
+		weatherIcon.setOpaque(false);
 		weatherIcon.setPreferredSize(new Dimension(50, 100));
 		
 		detailPanel.add(weatherIcon);
 		
-		weatherTypeLabel.setOpaque(false);
 		weatherTypeLabel.setForeground(Color.WHITE);
 		weatherTypeLabel.setFont(new Font("SansSerif", Font.BOLD, 25));
 		weatherTypeLabel.setMinimumSize(new Dimension(130, 100));
 		weatherTypeLabel.setMaximumSize(new Dimension(130, 100));
+		weatherTypeLabel.setOpaque(false);
 		weatherTypeLabel.setPreferredSize(new Dimension(130, 100));
 		
 		detailPanel.add(weatherTypeLabel);
 		
-		countryCodeLabel.setOpaque(false);
 		countryCodeLabel.setForeground(Color.WHITE);
 		countryCodeLabel.setFont(new Font("SansSerif", Font.BOLD, 25));
+		countryCodeLabel.setOpaque(false);
 		
 		detailPanel.add(countryCodeLabel);
 		
-		countryNameLabel.setOpaque(false);
 		countryNameLabel.setForeground(Color.WHITE);
 		countryNameLabel.setFont(new Font("SansSerif", Font.BOLD, 25));
+		countryNameLabel.setOpaque(false);
 		
 		detailPanel.add(countryNameLabel);
 		
 		backgroundPanel.add(detailPanel);
 		backgroundPanel.add(settingsPanel);
+	}
+	
+	private void setUpForecastPanel(List<WeatherForecast> forecastData) throws MalformedURLException
+	{	
+		JPanel columnA = makeGrid(forecastData.get(0));
+		JPanel columnB = makeGrid(forecastData.get(1));
+		JPanel columnC = makeGrid(forecastData.get(2));
+		
+		forecastPanel.setBounds(0, 250, 200, 200);
+		forecastPanel.setLayout(new GridLayout());
+		forecastPanel.setOpaque(false);
+		
+		forecastPanel.add(columnA);
+		forecastPanel.add(columnB);
+		forecastPanel.add(columnC);
+		
+		backgroundPanel.add(forecastPanel);
+	}
+	
+	private JPanel makeGrid( WeatherForecast dataToSet) throws MalformedURLException
+	{
+		JPanel grid = new JPanel();
+		
+		JLabel timeLabel = new JLabel();
+		JLabel temperatureLabel = new JLabel();
+		JLabel iconLabel = new JLabel();
+		JTextArea descLabel = new JTextArea();
+		
+		calendar.setTime(dataToSet.getTime());
+		
+		timeLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		timeLabel.setForeground(Color.white);
+		timeLabel.setFont(new Font("SansSerif", Font.BOLD, 20));
+		timeLabel.setPreferredSize(new Dimension(65, 50));
+		timeLabel.setText(Integer.toString(calendar.get(Calendar.HOUR_OF_DAY)) + ":"
+		+ Integer.toString(calendar.get(Calendar.MINUTE)) + Integer.toString(calendar.get(Calendar.MINUTE)));
+
+		temperatureLabel.setForeground(Color.white);
+		temperatureLabel.setText(Double.toString(dataToSet.getTemperature()) + "\u00b0C");
+		
+		iconLabel.setIcon(new ImageIcon(new URL(dataToSet.getIcon())));
+		
+		descLabel.setEditable(false);
+		descLabel.setLineWrap(true);
+		descLabel.setForeground(Color.white);
+		descLabel.setFont(new Font("SansSerif", Font.BOLD, 15));
+		descLabel.setOpaque(false);
+		descLabel.setPreferredSize(new Dimension(65, 100));
+		descLabel.setText(dataToSet.getDescription());
+		descLabel.setWrapStyleWord(true);
+		
+		grid.add(timeLabel);
+		grid.add(temperatureLabel);
+		grid.add(iconLabel);
+		grid.add(descLabel);
+		
+		grid.setLayout(new FlowLayout(FlowLayout.CENTER));
+		grid.setMinimumSize(new Dimension(65, 150));
+		grid.setMaximumSize(new Dimension(65, 150));
+		grid.setOpaque(false);
+		
+		return grid;
 	}
 	
 	private void setWeatherData()

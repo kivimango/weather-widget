@@ -31,7 +31,7 @@ public class WeatherWidget {
 			response = provider.getWeatherData();
 			WidgetWindow window = new WidgetWindow(response);
 			System.out.println("A hõmérséklet: " + response.getTemperature());
-			System.out.println("Idõjárás: " + response.getWeatherType() + ", " + response.getWeatherDescription());	
+			
 		} catch (JsonIOException e) {
 			System.out.println("Cannot retrieve information from the provider: "+provider.getName()+" ! (Service not available !)");
 		} catch ( JsonSyntaxException ee) {
