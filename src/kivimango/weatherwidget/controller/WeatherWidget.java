@@ -1,6 +1,8 @@
 package kivimango.weatherwidget.controller;
 
 import kivimango.weatherwidget.model.ServiceProvider;
+import kivimango.weatherwidget.model.Settings;
+import kivimango.weatherwidget.model.SettingsLoader;
 import kivimango.weatherwidget.model.Weather;
 import kivimango.weatherwidget.view.WidgetWindow;
 
@@ -24,8 +26,10 @@ import com.google.gson.JsonSyntaxException;
 
 public class WeatherWidget {
 
-	public static void main(String[] args) throws MalformedURLException {
-		ServiceProvider provider = new ServiceProvider();
+	public static void main(String[] args) {
+		SettingsLoader settingsLoader = new SettingsLoader();
+		Settings settings = settingsLoader.getSettings();
+		ServiceProvider provider = new ServiceProvider(settings.getCity());
 		Weather response = new Weather();
 		
 		try {
@@ -34,6 +38,8 @@ public class WeatherWidget {
 			WidgetWindow window = new WidgetWindow(response);
 			System.out.println("A hõmérséklet: " + response.getTemperature());
 			
+		} catch ( MalformedURLException e) {
+			System.out.println("Cannot retrieve information from the provider: "+provider.getName()+" ! (Invalid city name !)");
 		} catch (JsonIOException e) {
 			System.out.println("Cannot retrieve information from the provider: "+provider.getName()+" ! (Service not available !)");
 		} catch ( JsonSyntaxException ee) {

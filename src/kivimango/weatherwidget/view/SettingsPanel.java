@@ -8,12 +8,16 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
+
+import kivimango.weatherwidget.model.Settings;
+import kivimango.weatherwidget.model.SettingsLoader;
 
 /**
  * Setting up the Settings panel.
@@ -32,6 +36,9 @@ public class SettingsPanel extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 7573988335607174452L;
 
+	private static SettingsLoader settingsLoader = new SettingsLoader();
+	private static Settings settings = settingsLoader.getSettings();
+	
 	JLabel cityLabel = new JLabel("Enter your city:");
 	JTextField cityTextField = new JTextField(10);
 	JButton cancelButton = new JButton("Cancel");
@@ -52,6 +59,7 @@ public class SettingsPanel extends JPanel implements ActionListener {
 		add(cityLabel, constraints);
 		
 		constraints.gridy = 1;
+		cityTextField.setText(settings.getCity());
 		add(cityTextField, constraints);
 		
 		constraints.gridx = 0;
@@ -69,13 +77,10 @@ public class SettingsPanel extends JPanel implements ActionListener {
 		add(applyButton, constraints);
 		
 		TitledBorder titledBorder = BorderFactory.createTitledBorder(null, "Settings", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("SansSerif", Font.BOLD, 13), Color.black);
-		//setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Settings"));
 		setBackground(Color.white);
 		setBorder(titledBorder);
 		setBounds(0, 200, 200, 300);
-		//setMaximumSize(new Dimension(200,300));
 		setPreferredSize(new Dimension(200,300));
-		//setMinimumSize(new Dimension(200,300));
 		setOpaque(true);
 		
 		cancelButton.addActionListener(this);
@@ -91,9 +96,10 @@ public class SettingsPanel extends JPanel implements ActionListener {
 			setVisible(false);
 		}
 		else {
-			// TO-DO : implement saving the settings
+			settings.setCity(cityTextField.getText());
+			settingsLoader.saveSettingsFile(settings);
+			//WeatherWidget.reload();
 			setVisible(false);
 		}
 	}
-
 }

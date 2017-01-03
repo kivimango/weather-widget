@@ -29,19 +29,20 @@ public class ServiceProvider implements ServiceProviderInterface {
 	private String iconUrl = "http://openweathermap.org/img/w/";
 	private Weather response = new Weather();
 
-	public ServiceProvider() throws MalformedURLException {
+	public ServiceProvider(String cityBysettings) {
 		super();
 		name = "Open Weather Map";
 		apiKey = "b4fdc5e7a35e6a2c9e95b0b2c6a69600";
 		apiCallUrl = "http://api.openweathermap.org/data/2.5/weather?q=";
 		forecastApiUrl = "http://api.openweathermap.org/data/2.5/forecast?q=";
-		city = "Budapest,hu";
-		queryString = new URL(apiCallUrl + city + "&units=metric&APPID=" + apiKey);
-		forecastQueryString = new URL(forecastApiUrl + city + "&units=metric&APPID=" + apiKey);
+		city = cityBysettings;
 	}
 	
-	public Weather getWeatherData() throws JsonIOException, JsonSyntaxException, IOException
+	public Weather getWeatherData() throws MalformedURLException, JsonIOException, JsonSyntaxException, IOException
 	{
+		queryString = new URL(apiCallUrl + city + "&units=metric&APPID=" + apiKey);
+		forecastQueryString = new URL(forecastApiUrl + city + "&units=metric&APPID=" + apiKey);
+		
 		JsonObject responseFromProvider = doApiCall(queryString);
 		response = processDataFromProvider(responseFromProvider);
 		
@@ -101,10 +102,12 @@ public class ServiceProvider implements ServiceProviderInterface {
 			String icon = iconUrl + details.get("icon").getAsString() + ".png";
 			String desc = details.get("description").getAsString();
 			
+			/*
 			System.out.println("Hõmérséklet: " + temperature);
 			System.out.println("Idõbélyeg: " + date);
 			System.out.println("Ikon: " + icon);
 			System.out.println("Leírás: " + desc);
+			*/
 			
 			WeatherForecast buffer = new WeatherForecast();
 			buffer.setTime(date);
