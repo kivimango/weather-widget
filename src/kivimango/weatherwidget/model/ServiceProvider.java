@@ -17,6 +17,22 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 
+/**
+ * This class is responsible for querying the Open Weather Map's API to 
+ * retrieve the weather data (in JSON syntax) based on the passed parameters
+ *  (location unit metrics, return format, in this case I'm using JSON format).
+ *  
+ *  Because of the JSON return format, i added the Google GSON library as a dependency to able to
+ *  handle the JSON strings.
+ * 
+ * @author		kivimango	dev@kivimango.hu
+ * @copyright	kivimango	https://github.com/kivimango/weather-widget
+ * @license		GNU General Public License v3	https://www.gnu.org/licenses/gpl-3.0.html
+ * @version		0.1
+ * @since		0.1
+ * @package 	kivimango.weatherwidget.view
+ */
+
 public class ServiceProvider implements ServiceProviderInterface {
 	
 	private String name;

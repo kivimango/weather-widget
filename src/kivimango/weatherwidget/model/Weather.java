@@ -12,7 +12,7 @@ import javax.swing.ImageIcon;
  * 
  * @author Hicks
  * @copyright	kivimango	https://github.com/kivimango/weather-widget
- * @license		MIT License	https://opensource.org/licenses/MIT
+ * @license		GNU General Public License v3	https://www.gnu.org/licenses/gpl-3.0.html
  * @version		0.1
  * @since		0.1
  * @package 	kivimango.weatherwidget.model
