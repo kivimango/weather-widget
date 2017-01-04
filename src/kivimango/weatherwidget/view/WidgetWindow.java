@@ -97,6 +97,8 @@ public class WidgetWindow extends JFrame {
 		int startY = (screenSize.height - frameSize.height) - 650;
 		
 		add(backgroundPanel);
+		
+		setIconImage(new ImageIcon(getClass().getResource("/icon.png")).getImage());
 		setLayout(null);
 		setMinimumSize(new Dimension(200,600));
 		setLocation(startX, startY);
