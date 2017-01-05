@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -76,6 +77,7 @@ public class WidgetWindow extends JFrame {
 		
 		weatherData = response;
 		fillBackGroundList();
+		getRootPane().setBorder(BorderFactory.createDashedBorder(getBackground(), 1, 1, 1, true));
 		setWeatherData();
 		setBackgroundByWeatherCondition(weatherData.getWeatherType());
 		setTransparency(10);
