@@ -14,7 +14,14 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
+
+import kivimango.weatherwidget.model.ServiceProvider;
+import kivimango.weatherwidget.model.Settings;
+import kivimango.weatherwidget.model.SettingsLoader;
 import kivimango.weatherwidget.model.Weather;
 
 /**
@@ -52,19 +59,42 @@ public class WidgetWindow extends JFrame {
 	
 	final String backgroundFolder = "/backgrounds/";
 	
+	static SettingsLoader settingsLoader = new SettingsLoader();
+	static Settings settings = settingsLoader.getSettings();
+	static ServiceProvider provider = new ServiceProvider(settings.getCity());
+	static Weather response = new Weather();
+	
+	public static void main(String[] args) {
+		try {
+			WidgetWindow window = new WidgetWindow();
+			window.statusPanel.setEnableAnimation(true);
+			response = provider.getWeatherData();
+			window.setWeatherData(response);
+			window.statusPanel.setEnableAnimation(false);
+			System.out.println("A hõmérséklet: " + response.getTemperature());
+			
+		} catch ( MalformedURLException e) {
+			int result = JOptionPane.showConfirmDialog(settingsPanel, "Invalid URL! Cannot read stream from the provided adress!", new String("Error"), JOptionPane.DEFAULT_OPTION );
+			handleUrlException(result);
+		} catch (JsonIOException e) {
+			int result = JOptionPane.showConfirmDialog(settingsPanel, "Service not available!", new String("Error"), JOptionPane.DEFAULT_OPTION );
+			handleJsonException(result);
+		} catch ( JsonSyntaxException ee) {
+			int result = JOptionPane.showConfirmDialog(settingsPanel, "Invalid Url! Cannot read stream from the provided adress!", new String("Error"), JOptionPane.DEFAULT_OPTION ); 
+			handleJsonSyntaxException(result);
+		} catch ( IOException eee) {
+			int result = JOptionPane.showConfirmDialog(settingsPanel, "Press OK to reset the the settings and restart the application!", 
+					new String("Configuration file missing or corrupted!"), JOptionPane.DEFAULT_OPTION );
+			handleIOException(result);
+			}
+	}
+
 	public WidgetWindow() throws MalformedURLException
 	{
 		initWindow();
-		
-		
-		//forecastPanel = new ForecastPanel(response.getForecast());
-		
 		fillBackGroundList();
-		//setWeatherData();
-		
 		setTransparency(10);
 		setUpBackground();
-		
 		setVisible(true);
 	}
 	
@@ -173,9 +203,7 @@ public class WidgetWindow extends JFrame {
 				bg = ImageIO.read(getClass().getResource(backgroundFolder + backgroundList.get(condition)));
 				backgroundPanel.setIcon(new ImageIcon(bg));
 			} catch (IOException | IllegalArgumentException e) {
-				
 				// Background picture not found, fall back to the default black colored background
-				
 				this.setBackground(Color.black);
 			}
 		}
@@ -199,5 +227,51 @@ public class WidgetWindow extends JFrame {
 		float fOpacity = (float) opacity / 10;
 		String sOpacity = Float.toString(fOpacity) + "f";
 		setOpacity(Float.parseFloat(sOpacity));
+	}
+	
+	private static void handleJsonException(int result) {
+		System.err.println("Cannot retrieve information from the provider: "+provider.getName()+" ! (Service not available!)");
+		if(result == 0)
+		{
+			System.exit(0);
+		}
+	}
+	
+	private static void handleJsonSyntaxException(int result) {
+		System.err.println("Cannot retrieve information from the provider: "+provider.getName()+" ! (Invalid URL!)");
+		if(result == 0)
+		{
+			System.exit(0);
+		}
+	}
+	
+	private static void handleUrlException(int result)
+	{
+		System.err.println("Cannot retrieve information from the provider: "+provider.getName()+" ! (Invalid city name!)");
+		if(result == 0)
+		{
+			// creating a new configuration file with the default values of Settings class
+			settingsLoader.saveSettingsFile(new Settings());
+			System.exit(0);
+		}
+	}
+	
+	private static void handleIOException(int result)
+	{
+		System.err.println("I/O Exception occured: Configuration file missing or corrupted!");
+		System.err.println("Attempting to reset the settings file...");
+		if(result == 0)
+		{
+			// creating a new configuration file with the default values of Settings class
+			settingsLoader.saveSettingsFile(new Settings());
+			System.exit(0);
+		}
+	}
+
+	public void reload() throws JsonIOException, JsonSyntaxException, MalformedURLException, IOException {
+			statusPanel.setEnableAnimation(true);
+			response = provider.getWeatherData();
+			setWeatherData(response);
+			statusPanel.setEnableAnimation(false);
 	}
 }
