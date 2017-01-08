@@ -33,9 +33,11 @@ public class WeatherWidget {
 		Weather response = new Weather();
 		
 		try {
+			WidgetWindow window = new WidgetWindow();
+			window.statusPanel.setEnableAnimation(true);
 			response = provider.getWeatherData();
-			@SuppressWarnings("unused")
-			WidgetWindow window = new WidgetWindow(response);
+			window.setWeatherData(response);
+			window.statusPanel.setEnableAnimation(false);
 			System.out.println("A hõmérséklet: " + response.getTemperature());
 			
 		} catch ( MalformedURLException e) {

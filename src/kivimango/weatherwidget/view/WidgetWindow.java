@@ -44,22 +44,24 @@ public class WidgetWindow extends JFrame {
 	
 	ForecastPanel forecastPanel;
 	
+	public StatusPanel statusPanel = new StatusPanel();
+	
 	ImageIcon icon = new ImageIcon();
 	
 	static SettingsPanel settingsPanel = new SettingsPanel();
 	
 	final String backgroundFolder = "/backgrounds/";
 	
-	public WidgetWindow(Weather response) throws MalformedURLException
+	public WidgetWindow() throws MalformedURLException
 	{
 		initWindow();
 		
-		weatherData = response;
-		forecastPanel = new ForecastPanel(response.getForecast());
+		
+		//forecastPanel = new ForecastPanel(response.getForecast());
 		
 		fillBackGroundList();
-		setWeatherData();
-		setBackgroundByWeatherCondition(weatherData.getWeatherType());
+		//setWeatherData();
+		
 		setTransparency(10);
 		setUpBackground();
 		
@@ -102,12 +104,15 @@ public class WidgetWindow extends JFrame {
 		backgroundPanel.setLayout(null);
 		backgroundPanel.add(upperButtonPanel);
 		backgroundPanel.add(detailPanel);
-		backgroundPanel.add(forecastPanel);
 		backgroundPanel.add(settingsPanel);
+		
+		backgroundPanel.add(statusPanel);
 	}
 	
-	private void setWeatherData()
+	public void setWeatherData(Weather data) throws MalformedURLException
 	{
+		weatherData = data;
+		
 		detailPanel.temperatureLabel.setText(weatherData.getTemperature() + "\u00b0C");
 		try {
 			detailPanel.weatherIcon.setIcon(new ImageIcon(new URL(weatherData.getWeatherIcon())));
@@ -120,6 +125,12 @@ public class WidgetWindow extends JFrame {
 		
 		detailPanel.countryCodeLabel.setText(weatherData.getCountryCode() + ", ");
 		detailPanel.countryNameLabel.setText(weatherData.getCityName());
+		
+		forecastPanel = new ForecastPanel(data.getForecast());
+		
+		setBackgroundByWeatherCondition(data.getWeatherType());
+		
+		backgroundPanel.add(forecastPanel);
 	}
 	
 	/**
