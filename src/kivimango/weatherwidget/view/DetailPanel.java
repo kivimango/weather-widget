@@ -24,16 +24,32 @@ public class DetailPanel extends JPanel {
 
 	private static final long serialVersionUID = 9140829122466542109L;
 	
-	JLabel temperatureLabel = new JLabel();
 	JLabel weatherIcon		= new JLabel();
 	JLabel weatherTypeLabel = new JLabel();
-	JLabel countryCodeLabel = new JLabel();
-	JLabel countryNameLabel = new JLabel();
+	JLabel temperatureLabel = new JLabel();
 
 	public DetailPanel() {
 		setBounds(0, 50, 200, 200);
 		setLayout(new FlowLayout(FlowLayout.CENTER));
 		setOpaque(false);
+		
+		weatherIcon.setHorizontalAlignment(SwingConstants.CENTER);
+		weatherIcon.setMinimumSize(new Dimension(50, 100));
+		weatherIcon.setMaximumSize(new Dimension(50, 100));
+		weatherIcon.setOpaque(false);
+		weatherIcon.setPreferredSize(new Dimension(50, 100));
+		
+		add(weatherIcon);
+		
+		weatherTypeLabel.setHorizontalAlignment(SwingConstants.LEFT);
+		weatherTypeLabel.setForeground(Color.WHITE);
+		weatherTypeLabel.setFont(new Font("SansSerif", Font.BOLD, 22));
+		weatherTypeLabel.setMinimumSize(new Dimension(130, 100));
+		weatherTypeLabel.setMaximumSize(new Dimension(130, 100));
+		weatherTypeLabel.setOpaque(false);
+		weatherTypeLabel.setPreferredSize(new Dimension(130, 100));
+		
+		add(weatherTypeLabel);
 		
 		temperatureLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		temperatureLabel.setForeground(Color.WHITE);
@@ -44,33 +60,5 @@ public class DetailPanel extends JPanel {
 		temperatureLabel.setPreferredSize(new Dimension(200, 50));
 		
 		add(temperatureLabel);
-		
-		weatherIcon.setMinimumSize(new Dimension(50, 100));
-		weatherIcon.setMaximumSize(new Dimension(50, 100));
-		weatherIcon.setOpaque(false);
-		weatherIcon.setPreferredSize(new Dimension(50, 100));
-		
-		add(weatherIcon);
-		
-		weatherTypeLabel.setForeground(Color.WHITE);
-		weatherTypeLabel.setFont(new Font("SansSerif", Font.BOLD, 25));
-		weatherTypeLabel.setMinimumSize(new Dimension(130, 100));
-		weatherTypeLabel.setMaximumSize(new Dimension(130, 100));
-		weatherTypeLabel.setOpaque(false);
-		weatherTypeLabel.setPreferredSize(new Dimension(130, 100));
-		
-		add(weatherTypeLabel);
-		
-		countryCodeLabel.setForeground(Color.WHITE);
-		countryCodeLabel.setFont(new Font("SansSerif", Font.BOLD, 25));
-		countryCodeLabel.setOpaque(false);
-		
-		add(countryCodeLabel);
-		
-		countryNameLabel.setForeground(Color.WHITE);
-		countryNameLabel.setFont(new Font("SansSerif", Font.BOLD, 25));
-		countryNameLabel.setOpaque(false);
-		
-		add(countryNameLabel);
 	}
 }

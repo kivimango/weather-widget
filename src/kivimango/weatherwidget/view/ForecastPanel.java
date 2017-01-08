@@ -10,10 +10,10 @@ import java.net.URL;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
 import kivimango.weatherwidget.model.WeatherForecast;
@@ -37,25 +37,47 @@ public class ForecastPanel extends JPanel {
 
 	private List<WeatherForecast> forecastData;
 	
+	JLabel titleLabel = new JLabel("Forecast");
+	JPanel gridContainer = new JPanel();
+	
 	JPanel columnA = new JPanel();
 	JPanel columnB = new JPanel();
 	JPanel columnC = new JPanel();
 	
 	public ForecastPanel(List<WeatherForecast> dataToSet) throws MalformedURLException {
 		setBounds(0, 250, 200, 200);
-		setLayout(new GridLayout());
+		setLayout(new FlowLayout());
 		setOpaque(false);
-	
+		
+		titleLabel.setForeground(Color.WHITE);
+		titleLabel.setOpaque(false);
+		titleLabel.setPreferredSize(new Dimension(180,50));
+		titleLabel.setHorizontalAlignment(SwingConstants.LEFT);
+		// for drawing a bottom border only
+		titleLabel.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.WHITE));
+		
+		gridContainer.setLayout(new GridLayout());
+		gridContainer.setOpaque(false);
+		
 		forecastData = dataToSet;
 		
 		columnA = makeGrid(forecastData.get(0));
 		columnB = makeGrid(forecastData.get(1));
 		columnC = makeGrid(forecastData.get(2));
 		
-		add(columnA);
-		add(columnB);
-		add(columnC);
+		add(titleLabel);
+		gridContainer.add(columnA);
+		gridContainer.add(columnB);
+		gridContainer.add(columnC);
+		add(gridContainer);
 	}
+	
+	/**
+	 * 
+	 * @param data the WeatherForecast class from the getForecast() method's result list
+	 * @return the generated JPanel grid displaying the forecast data
+	 * @throws MalformedURLException
+	 */
 	
 	private JPanel makeGrid(WeatherForecast data) throws MalformedURLException
 	{
@@ -64,39 +86,27 @@ public class ForecastPanel extends JPanel {
 		JLabel timeLabel = new JLabel();
 		JLabel temperatureLabel = new JLabel();
 		JLabel iconLabel = new JLabel();
-		JTextArea descLabel = new JTextArea();
 		
 		calendar.setTime(data.getTime());
 		
 		timeLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		timeLabel.setForeground(Color.white);
-		timeLabel.setFont(new Font("SansSerif", Font.BOLD, 20));
+		timeLabel.setFont(new Font("Helvetica", Font.BOLD, 20));
 		timeLabel.setText(Integer.toString(calendar.get(Calendar.HOUR_OF_DAY)) + ":"
 				+ Integer.toString(calendar.get(Calendar.MINUTE)) + Integer.toString(calendar.get(Calendar.MINUTE)));
-		timeLabel.setPreferredSize(new Dimension(65, 50));
 
+		iconLabel.setIcon(new ImageIcon(new URL(data.getIcon())));
+		iconLabel.setToolTipText(data.getDescription());
+		
 		temperatureLabel.setForeground(Color.white);
 		temperatureLabel.setText(Double.toString(data.getTemperature()) + "\u00b0C");
 		
-		iconLabel.setIcon(new ImageIcon(new URL(data.getIcon())));
-		
-		descLabel.setEditable(false);
-		descLabel.setLineWrap(true);
-		descLabel.setForeground(Color.white);
-		descLabel.setFont(new Font("SansSerif", Font.BOLD, 15));
-		descLabel.setOpaque(false);
-		descLabel.setText(data.getDescription());
-		descLabel.setPreferredSize(new Dimension(65, 100));
-		descLabel.setWrapStyleWord(true);
-		
 		grid.add(timeLabel);
-		grid.add(temperatureLabel);
 		grid.add(iconLabel);
-		grid.add(descLabel);
+		grid.add(temperatureLabel);
 		
 		grid.setLayout(new FlowLayout(FlowLayout.CENTER));
-		grid.setMinimumSize(new Dimension(65, 150));
-		grid.setMaximumSize(new Dimension(65, 150));
+		grid.setPreferredSize(new Dimension(65, 150));
 		grid.setOpaque(false);
 		
 		return grid;

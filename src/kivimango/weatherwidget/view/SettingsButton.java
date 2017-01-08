@@ -8,6 +8,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.border.Border;
 
 /**
  * Setting up the Settings button in the top left corner.
@@ -44,6 +45,9 @@ public class SettingsButton extends JButton implements ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 		WidgetWindow.settingsPanel.setVisible(true);
 	}
+	
+	@Override
+	public void setBorder(Border b) {}
 	
 	private void seticonFromResource()
 	{

@@ -113,7 +113,9 @@ public class WidgetWindow extends JFrame {
 	{
 		weatherData = data;
 		
-		detailPanel.temperatureLabel.setText(weatherData.getTemperature() + "\u00b0C");
+		// Need to truncate the double value to a simple integer (eg 12.35 to just 12)
+		
+		detailPanel.temperatureLabel.setText((int)weatherData.getTemperature() + "\u00b0C");
 		try {
 			detailPanel.weatherIcon.setIcon(new ImageIcon(new URL(weatherData.getWeatherIcon())));
 		} catch (MalformedURLException e) {
@@ -123,8 +125,7 @@ public class WidgetWindow extends JFrame {
 		detailPanel.weatherTypeLabel.setText(weatherData.getWeatherType());
 		detailPanel.weatherTypeLabel.setToolTipText(weatherData.getWeatherDescription());
 		
-		detailPanel.countryCodeLabel.setText(weatherData.getCountryCode() + ", ");
-		detailPanel.countryNameLabel.setText(weatherData.getCityName());
+		upperButtonPanel.countryNameLabel.setText(weatherData.getCountryCode() + ", " + weatherData.getCityName());
 		
 		forecastPanel = new ForecastPanel(data.getForecast());
 		
