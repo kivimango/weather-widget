@@ -14,6 +14,7 @@ A simple application to display weather data on your desktop.
 * Nice, high quality background pictures
 * Background pictures changes based on the weather condition
 * Platform-independent
+
 ### Contribution
 Just send a Pull Request
 ### Reporting bugs
