@@ -8,6 +8,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -16,6 +17,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
+
+import kivimango.weatherwidget.controller.WeatherWidget;
 import kivimango.weatherwidget.model.Settings;
 import kivimango.weatherwidget.model.SettingsLoader;
 
@@ -33,7 +38,7 @@ import kivimango.weatherwidget.model.SettingsLoader;
  */
 
 public class SettingsPanel extends JPanel implements ActionListener {
-
+	
 	private static final long serialVersionUID = 7573988335607174452L;
 
 	private static SettingsLoader settingsLoader = new SettingsLoader();
@@ -95,10 +100,15 @@ public class SettingsPanel extends JPanel implements ActionListener {
 		{
 			setVisible(false);
 		}
-		else {
+		else if((e.getSource() == applyButton)) {
 			settings.setCity(cityTextField.getText());
 			settingsLoader.saveSettingsFile(settings);
-			//WeatherWidget.reload();
+			try {
+				WeatherWidget.reload();
+			} catch (JsonIOException | JsonSyntaxException | IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			setVisible(false);
 		}
 	}
