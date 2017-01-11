@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -16,6 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import kivimango.weatherwidget.model.Weather;
+import kivimango.weatherwidget.model.WeatherForecast;
 
 /**
  * Implementation of the Widget's window which will display the weather details
@@ -31,8 +33,6 @@ import kivimango.weatherwidget.model.Weather;
 public class WidgetWindow extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
-
-	Weather weatherData = new Weather();
 	
 	HashMap<String, String> backgroundList = new HashMap<>();
     
@@ -103,27 +103,27 @@ public class WidgetWindow extends JFrame {
 	}
 	
 	public void setWeatherData(Weather data) throws MalformedURLException
-	{
-		weatherData = data;
-		
+	{	
 		// Need to truncate the double value to a simple integer (eg 12.35 to just 12)
 		
-		detailPanel.temperatureLabel.setText((int)weatherData.getTemperature() + "\u00b0C");
+		detailPanel.temperatureLabel.setText((int)data.getTemperature() + "\u00b0C");
 		try {
-			detailPanel.weatherIcon.setIcon(new ImageIcon(new URL(weatherData.getWeatherIcon())));
+			detailPanel.weatherIcon.setIcon(new ImageIcon(new URL(data.getWeatherIcon())));
 		} catch (MalformedURLException e) {
 			detailPanel.weatherIcon.setIcon(new ImageIcon());
 		}
 		
-		detailPanel.weatherTypeLabel.setText(weatherData.getWeatherType());
-		detailPanel.weatherTypeLabel.setToolTipText(weatherData.getWeatherDescription());
+		detailPanel.weatherTypeLabel.setText(data.getWeatherType());
+		detailPanel.weatherTypeLabel.setToolTipText(data.getWeatherDescription());
 		
-		upperButtonPanel.countryNameLabel.setText(weatherData.getCountryCode() + ", " + weatherData.getCityName());
-		
-		forecastPanel = new ForecastPanel(data.getForecast());
+		upperButtonPanel.countryNameLabel.setText(data.getCountryCode() + ", " + data.getCityName());
 		
 		setBackgroundByWeatherCondition(data.getWeatherType());
-		
+	}
+	
+	public void setForecastData(List<WeatherForecast> forecastData) throws MalformedURLException
+	{
+		forecastPanel = new ForecastPanel(forecastData);
 		backgroundPanel.add(forecastPanel);
 	}
 	

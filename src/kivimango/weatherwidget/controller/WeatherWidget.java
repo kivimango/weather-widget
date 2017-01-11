@@ -4,10 +4,12 @@ import kivimango.weatherwidget.model.ServiceProvider;
 import kivimango.weatherwidget.model.Settings;
 import kivimango.weatherwidget.model.SettingsLoader;
 import kivimango.weatherwidget.model.Weather;
+import kivimango.weatherwidget.model.WeatherForecast;
 import kivimango.weatherwidget.view.WidgetWindow;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
@@ -31,7 +33,7 @@ public class WeatherWidget {
 
 		static SettingsLoader settingsLoader = new SettingsLoader();
 		static Settings settings = settingsLoader.getSettings();
-		static ServiceProvider provider = new ServiceProvider(settings.getCity());
+		static ServiceProvider provider = new ServiceProvider();
 		static WidgetWindow window;
 		
 		/**
@@ -49,9 +51,10 @@ public class WeatherWidget {
 			try {
 				window = new WidgetWindow();
 				window.statusPanel.setEnableAnimation(true);
-				Weather response = new Weather();
-				response = provider.getWeatherData();
+				Weather response = provider.getWeatherData(settings.getCity());
+				List<WeatherForecast> responseForecast = provider.getForecastData(settings.getCity());
 				window.setWeatherData(response);
+				window.setForecastData(responseForecast);
 				window.statusPanel.setEnableAnimation(false);
 				System.out.println("A hőmérséklet: " + response.getTemperature());
 				
@@ -121,11 +124,13 @@ public class WeatherWidget {
 		
 		public static void reload() throws JsonIOException, JsonSyntaxException, MalformedURLException, IOException {
 				window.statusPanel.setEnableAnimation(true);
-				Weather response = new Weather();
-				response = provider.getWeatherData();
+				settings = settingsLoader.getSettings();
+				Weather response = provider.getWeatherData(settings.getCity());
+				List<WeatherForecast> responseForecast = provider.getForecastData(settings.getCity());
 				window.setWeatherData(response);
-				window.statusPanel.setEnableAnimation(false);
+				window.setForecastData(responseForecast);
 				window.revalidate();
 				window.repaint();
+				window.statusPanel.setEnableAnimation(false);
 		}
 }

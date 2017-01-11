@@ -13,46 +13,38 @@ import java.util.Date;
  * @package 	kivimango.weatherwidget.model
  */
 
-public class WeatherForecast {
+public final class WeatherForecast {
 	
-	private Date time;
+	final private Date time;
 	
-	private double temperature;
+	final private double temperature;
 
-	private String icon;
+	final private String icon;
 	
-	private String description;
+	final private String description;
+
+	public WeatherForecast(Date time, double temperature, String icon, String description) {
+		super();
+		this.time = time;
+		this.temperature = temperature;
+		this.icon = icon;
+		this.description = description;
+	}
 
 	public Date getTime() {
 		return time;
 	}
 
-	public void setTime(Date time) {
-		this.time = time;
-	}
-
 	public double getTemperature() {
 		return temperature;
-	}
-	
-	public void setTemperature(double temperature) {
-		this.temperature = temperature;
 	}
 
 	public String getIcon() {
 		return icon;
 	}
 
-	public void setIcon(String icon) {
-		this.icon = icon;
-	}
-
 	public String getDescription() {
 		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
 	}
 
 }

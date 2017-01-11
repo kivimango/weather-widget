@@ -43,31 +43,32 @@ public class ServiceProvider implements ServiceProviderInterface {
 	private URL queryString;
 	private URL forecastQueryString;
 	private String iconUrl = "http://openweathermap.org/img/w/";
-	private Weather response = new Weather();
 
-	public ServiceProvider(String cityBysettings) {
+	public ServiceProvider() {
 		super();
 		name = "Open Weather Map";
 		apiKey = "b4fdc5e7a35e6a2c9e95b0b2c6a69600";
 		apiCallUrl = "http://api.openweathermap.org/data/2.5/weather?q=";
 		forecastApiUrl = "http://api.openweathermap.org/data/2.5/forecast?q=";
-		city = cityBysettings;
 	}
 	
-	public Weather getWeatherData() throws MalformedURLException, JsonIOException, JsonSyntaxException, IOException
+	public Weather getWeatherData(String cityBysettings) throws MalformedURLException, JsonIOException, JsonSyntaxException, IOException
 	{
+		city = cityBysettings;
+		
 		queryString = new URL(apiCallUrl + city + "&units=metric&APPID=" + apiKey);
-		forecastQueryString = new URL(forecastApiUrl + city + "&units=metric&APPID=" + apiKey);
 		
 		JsonObject responseFromProvider = doApiCall(queryString);
-		response = processDataFromProvider(responseFromProvider);
-		
+		return processDataFromProvider(responseFromProvider);
+	}
+	
+	public List<WeatherForecast> getForecastData(String cityBySettings) throws JsonIOException, JsonSyntaxException, IOException
+	{
+		forecastQueryString = new URL(forecastApiUrl + cityBySettings + "&units=metric&APPID=" + apiKey);
 		JsonObject forecastJSON = doApiCall(forecastQueryString);
 		processForecastFromProvider(forecastJSON);
 		
-		response.setForecast(processForecastFromProvider(forecastJSON));
-		
-		return response;
+		return processForecastFromProvider(forecastJSON);
 	}
 	
 	public JsonObject doApiCall(URL urlString) throws JsonIOException, JsonSyntaxException, IOException
@@ -89,14 +90,8 @@ public class ServiceProvider implements ServiceProviderInterface {
 		String tempCityName = responseToProcess.get("name").getAsString();
 		String iconn = tempWeatherInfo.get(0).getAsJsonObject().get("icon").getAsString();
 		
-		response.setWeatherType(tempWeatherType);
-		response.setWeatherDescription(tempWeatherDescription);
-		response.setTemperature(temperature);
-		response.setCountryCode(tempCountryCode);
-		response.setCityName(tempCityName);		
-		response.setWeatherIcon(iconUrl + iconn);
-		
-		System.out.println(iconUrl + iconn + ".png");
+		Weather response = new Weather(tempCountryCode, tempCityName, tempWeatherType, tempWeatherDescription,
+				iconUrl + iconn, temperature);
 		
 		return response;
 	}
@@ -125,12 +120,7 @@ public class ServiceProvider implements ServiceProviderInterface {
 			System.out.println("Leírás: " + desc);
 			*/
 			
-			WeatherForecast buffer = new WeatherForecast();
-			buffer.setTime(date);
-			buffer.setTemperature(temperature);
-			buffer.setIcon(icon);
-			buffer.setDescription(desc);
-			
+			WeatherForecast buffer = new WeatherForecast(date, temperature, icon, desc);
 			result.add(buffer);
 		}
 		
