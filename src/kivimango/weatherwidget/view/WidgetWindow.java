@@ -123,8 +123,20 @@ public class WidgetWindow extends JFrame {
 	
 	public void setForecastData(List<WeatherForecast> forecastData) throws MalformedURLException
 	{
+		// Changing the location will create new instances of Weather and WeatherForecast objects
+		// Setting the values again will cause the multiple instances of forecastPanel will overlap the GUI
+		// So we need to check it if its already created with the previous values
+		
+		if(forecastPanel != null)
+		{
+			backgroundPanel.remove(forecastPanel);
+			forecastPanel = new ForecastPanel(forecastData);
+			backgroundPanel.add(forecastPanel);
+		}
+		else {
 		forecastPanel = new ForecastPanel(forecastData);
 		backgroundPanel.add(forecastPanel);
+		}
 	}
 	
 	/**
