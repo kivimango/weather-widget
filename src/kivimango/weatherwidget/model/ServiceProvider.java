@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -54,7 +55,7 @@ public class ServiceProvider implements ServiceProviderInterface {
 	
 	public Weather getWeatherData(String cityBysettings) throws MalformedURLException, JsonIOException, JsonSyntaxException, IOException
 	{
-		city = cityBysettings;
+		city = URLEncoder.encode(cityBysettings, "UTF-8");
 		
 		queryString = new URL(apiCallUrl + city + "&units=metric&APPID=" + apiKey);
 		
@@ -88,7 +89,7 @@ public class ServiceProvider implements ServiceProviderInterface {
 		double temperature =  responseToProcess.get("main").getAsJsonObject().get("temp").getAsDouble();
 		String tempCountryCode = responseToProcess.get("sys").getAsJsonObject().get("country").getAsString();
 		String tempCityName = responseToProcess.get("name").getAsString();
-		String iconn = tempWeatherInfo.get(0).getAsJsonObject().get("icon").getAsString();
+		String iconn = tempWeatherInfo.get(0).getAsJsonObject().get("icon").getAsString() + ".png";
 		
 		Weather response = new Weather(tempCountryCode, tempCityName, tempWeatherType, tempWeatherDescription,
 				iconUrl + iconn, temperature);

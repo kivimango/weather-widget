@@ -99,7 +99,7 @@ public class ForecastPanel extends JPanel {
 		iconLabel.setToolTipText(data.getDescription());
 		
 		temperatureLabel.setForeground(Color.white);
-		temperatureLabel.setText(Double.toString(data.getTemperature()) + "\u00b0C");
+		temperatureLabel.setText(new Double(data.getTemperature()).intValue() + "\u00b0C");
 		
 		grid.add(timeLabel);
 		grid.add(iconLabel);

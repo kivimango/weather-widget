@@ -106,8 +106,8 @@ public class SettingsPanel extends JPanel implements ActionListener {
 			try {
 				WeatherWidget.reload();
 			} catch (JsonIOException | JsonSyntaxException | IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				// user entered invalid String, using the default setting...
+				settings.setCity(new Settings().getCity());
 			}
 			setVisible(false);
 		}

@@ -109,6 +109,7 @@ public class WidgetWindow extends JFrame {
 		detailPanel.temperatureLabel.setText((int)data.getTemperature() + "\u00b0C");
 		try {
 			detailPanel.weatherIcon.setIcon(new ImageIcon(new URL(data.getWeatherIcon())));
+			System.out.println(detailPanel.weatherIcon.getIcon());
 		} catch (MalformedURLException e) {
 			detailPanel.weatherIcon.setIcon(new ImageIcon());
 		}
@@ -172,7 +173,6 @@ public class WidgetWindow extends JFrame {
 		
 		if (backgroundList.containsKey(condition))
 		{
-			System.out.println(backgroundList.get(condition));
 			try {
 				BufferedImage bg = null;
 				bg = ImageIO.read(getClass().getResource(backgroundFolder + backgroundList.get(condition)));
