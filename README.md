@@ -1,5 +1,7 @@
 # Desktop Weather Widget
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
+[![Github All Releases](https://img.shields.io/github/downloads/kivimango/weather-widget/total.svg?maxAge=2592000)](https://github.com/kivimango/weather-widget/releases/latest)
+[![GitHub release](https://img.shields.io/github/release/kivimango/weather-widget.svg?maxAge=2592000)](https://github.com/kivimango/weather-widget/releases/latest)
 [![Build Status](https://travis-ci.org/kivimango/weather-widget.png?branch=master)](https://travis-ci.org/kivimango/weather-widget)
 
 A simple application to display weather data on your desktop.
