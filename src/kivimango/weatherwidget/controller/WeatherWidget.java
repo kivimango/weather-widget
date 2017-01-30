@@ -56,8 +56,6 @@ public class WeatherWidget {
 				window.setWeatherData(response);
 				window.setForecastData(responseForecast);
 				window.statusPanel.setEnableAnimation(false);
-				System.out.println("A hőmérséklet: " + response.getTemperature());
-				
 			} catch ( MalformedURLException e) {
 				int result = JOptionPane.showConfirmDialog(WidgetWindow.settingsPanel, "Invalid URL! Cannot read stream from the provided adress!", new String("Error"), JOptionPane.DEFAULT_OPTION );
 				handleUrlException(result);

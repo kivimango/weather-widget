@@ -114,13 +114,6 @@ public class ServiceProvider implements ServiceProviderInterface {
 			String icon = iconUrl + details.get("icon").getAsString() + ".png";
 			String desc = details.get("description").getAsString();
 			
-			/*
-			System.out.println("Hõmérséklet: " + temperature);
-			System.out.println("Idõbélyeg: " + date);
-			System.out.println("Ikon: " + icon);
-			System.out.println("Leírás: " + desc);
-			*/
-			
 			WeatherForecast buffer = new WeatherForecast(date, temperature, icon, desc);
 			result.add(buffer);
 		}

@@ -35,7 +35,6 @@ public class SettingsLoader {
 
 	public SettingsLoader() {
 		pathToSettingsFile = System.getProperty("user.home")+File.separator+settingsFileName;
-		System.out.println(pathToSettingsFile);
 	}
 	
 	public Settings getSettings() {
@@ -96,7 +95,7 @@ public class SettingsLoader {
 		// Could not load file (no rights to access, HDD fault, etc)
 		
 		catch (IOException e) {
-			System.out.println(e.getMessage());
+			System.err.println(e.getMessage());
 			settings.setCity(defaultCity);
 		}
 		

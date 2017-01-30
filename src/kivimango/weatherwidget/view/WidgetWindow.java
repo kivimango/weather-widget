@@ -109,7 +109,6 @@ public class WidgetWindow extends JFrame {
 		detailPanel.temperatureLabel.setText((int)data.getTemperature() + "\u00b0C");
 		try {
 			detailPanel.weatherIcon.setIcon(new ImageIcon(new URL(data.getWeatherIcon())));
-			System.out.println(detailPanel.weatherIcon.getIcon());
 		} catch (MalformedURLException e) {
 			detailPanel.weatherIcon.setIcon(new ImageIcon());
 		}
