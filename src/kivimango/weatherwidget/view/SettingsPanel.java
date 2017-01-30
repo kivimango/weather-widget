@@ -101,7 +101,7 @@ public class SettingsPanel extends JPanel implements ActionListener {
 			setVisible(false);
 		}
 		else if((e.getSource() == applyButton)) {
-			settings.setCity(cityTextField.getText());
+			settings.setCity(cityTextField.getText().replaceAll("[^A-Za-z0-9]", ""));
 			settingsLoader.saveSettingsFile(settings);
 			try {
 				WeatherWidget.reload();
